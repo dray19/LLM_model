@@ -1,0 +1,71 @@
+# ----------------------------------
+# Python
+# ----------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+local_llm/
+
+# ----------------------------------
+# Jupyter
+# ----------------------------------
+.ipynb_checkpoints/
+
+# ----------------------------------
+# Data & outputs
+# ----------------------------------
+datasets/
+*.parquet
+*.feather
+*.h5
+*.pkl
+*.joblib
+
+# Model artifacts
+models/
+checkpoints/
+*.model
+
+# ----------------------------------
+# Logs & temp files
+# ----------------------------------
+logs/
+*.log
+tmp/
+temp/
+
+# ----------------------------------
+# OS / Editor
+# ----------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ----------------------------------
+# Config / secrets
+# ----------------------------------
+config.ini
+*.env
+*.key
+*.secret
+
+# ----------------------------------
+# Build / dist
+# ----------------------------------
+build/
+dist/
+*.egg-info/
+
+# ----------------------------------
+# Notebooks 
+# ----------------------------------
+create_data_to_train.ipynb
+test_code.ipynb
