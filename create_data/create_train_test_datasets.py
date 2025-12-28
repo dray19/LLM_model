@@ -211,6 +211,132 @@ def create_test_examples(train_examples: List) -> List[dict]:
         })
     return test_examples
 
+
+def create_unseen_examples(num_examples: int) -> List[dict]:
+    """
+    Create a list of random examples with randomized / unseen column names.
+    """
+
+    templates = [
+        (
+            "Compute the mean and std of {col} grouped by {group}.",
+            "Columns: {cols}",
+            "df.groupby('{group}')['{col}'].agg(['mean','std'])"
+        ),
+        (
+            "Compute count of rows grouped by {group}.",
+            "Columns: {cols}",
+            "df.groupby('{group}').size()"
+        ),
+        (
+            "Extract hour from {dt}.",
+            "Columns: {cols}",
+            "df['hour'] = df['{dt}'].dt.hour"
+        ),
+        (
+            "Filter rows for a specific hour {val}.",
+            "Columns: {cols}",
+            "df[df['{dt}'].dt.hour == {val}]"
+        ),
+        (
+            "Return top {val} rows by {col}.",
+            "Columns: {cols}",
+            "df.nlargest({val}, '{col}')"
+        ),
+        (
+            "Return bottom {val} rows by {col}.",
+            "Columns: {cols}",
+            "df.nsmallest({val}, '{col}')"
+        ),
+        (
+            "Get unique values of {col}.",
+            "Columns: {cols}",
+            "df['{col}'].unique()"
+        ),
+        (
+            "Count unique values of {col}.",
+            "Columns: {cols}",
+            "df['{col}'].nunique()"
+        ),
+        (
+            "Compute the mean of {col} grouped by {group}.",
+            "Columns: {cols}",
+            "df.groupby('{group}')['{col}'].mean()"
+        ),
+        (
+            "Compute the sum of {col} grouped by {group}.",
+            "Columns: {cols}",
+            "df.groupby('{group}')['{col}'].sum()"
+        ),
+        (
+            "Filter rows where {col} is greater than {val}.",
+            "Columns: {cols}",
+            "df[df['{col}'] > {val}]"
+        ),
+        (
+            "Sort the DataFrame by {col}.",
+            "Columns: {cols}",
+            "df.sort_values('{col}')"
+        ),
+    ]
+
+    # ---- base columns (always valid) ----
+    base_columns = [
+        "predicted", "total", "power", "day_ahead_forecast",
+        "price_rt", "price_da", "load_fcst", "wind_fcst"
+    ]
+
+    # ---- synthetic column generators ----
+    suffixes = ["_v2", "_adj", "_raw", "_scaled", "_err", "_delta"]
+    prefixes = ["predicted", "total", "price_rt", "load_fcst", "wind_fcst", "solar_fcst"]
+
+    def random_column():
+        if random.random() < 0.6:
+            return random.choice(base_columns)
+        return f"{random.choice(prefixes)}{random.choice(suffixes)}"
+
+    groups = ["zone", "method", "region"]
+    dates = ["start_time", "fcst_time"]
+
+    examples = []
+
+    for _ in range(num_examples):
+        t = random.choice(templates)
+
+        col = random_column()
+        group = random.choice(groups)
+        dt = random.choice(dates)
+
+        # random visible schema for the prompt
+        visible_cols = list(
+            set(
+                random.sample(base_columns, k=random.randint(3, 5))
+                + [col, group, dt]
+            )
+        )
+
+        record = {
+            "instruction": t[0].format(
+                col=col,
+                group=group,
+                dt=dt,
+                val=random.randint(1, 200)
+            ),
+            "input": t[1].format(
+                cols=", ".join(visible_cols)
+            ),
+            "output": t[2].format(
+                col=col,
+                group=group,
+                dt=dt,
+                val=random.randint(1, 200)
+            )
+        }
+
+        examples.append(record)
+
+    return examples
+
 if __name__ == "__main__":
     # Number of total examples to create
     total_examples = 1000
@@ -227,6 +353,8 @@ if __name__ == "__main__":
     # Convert the test set into the desired structure
     test_set = create_test_examples(test_set_transform)
 
+    unseen_set = create_unseen_examples(100)
+
     # Save training data
     with open("data/train.jsonl", "w") as train_file:
         for example in train_set:
@@ -237,5 +365,11 @@ if __name__ == "__main__":
         for example in test_set:
             test_file.write(json.dumps(example) + "\n")
 
+    # Save unseen data
+    with open("data/unseen.jsonl", "w") as unseen_file:
+        for example in unseen_set:
+            unseen_file.write(json.dumps(example) + "\n")
+
     print(f"Generated {len(train_set)} training examples in 'train.jsonl'.")
     print(f"Generated {len(test_set)} testing examples in 'test.jsonl'.")
+    print(f"Generated {len(unseen_set)} unseen examples in 'unseen.jsonl'.")
