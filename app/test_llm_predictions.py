@@ -37,6 +37,7 @@ def evaluate_model(test_file, output_csv):
             print(f"Expected: {test['expected']}")
 
             # Calculate similarity as a metric
+            # 2 * (number of matching characters)/ (total characters in both strings)
             similarity_score = calculate_similarity(test["expected"], response)
 
             # Determine if the prediction is correct

@@ -1,301 +1,301 @@
 test_case_id,instruction,expected_output,generated_output,similarity_score,is_correct,method_correct,error
-1,"Count unique values of power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['day_ahead'].nunique(),df['power_OBS'].nunique(),0.68,False,False,
-2,"Sort the DataFrame by gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('power_OBS'),df.sort_values(by='gain'),0.69,False,False,
-3,"Filter rows for a specific hour 28.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 78.0],df[df['INIT_DATE_TIME'].dt.hour == 28.0],0.97,True,True,
-4,"Compute the sum of pred grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].sum(),df.groupby('models')['pred'].sum(),0.88,False,True,
-5,"Filter rows where day_ahead is greater than 95.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] > 50.0],df[df['day_ahead'] > 95.0],0.72,False,True,
-6,"Compute the mean and std of day_ahead grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['gain'].agg(['mean','std'])","""""",0.0,False,False,
-7,"Compute the sum of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['day_ahead'].sum(),df.groupby('LZ')['power_OBS'].sum(),0.68,False,False,
-8,"Filter rows where power_OBS is less than 53.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] < 46.0],df.loc[df['power_OBS'] < 53.0],0.67,False,False,
-9,"Filter rows where pred is less than or equal to4.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] <= 122.0],df.loc[df['pred'] <= 4.0],0.67,False,False,
-10,"Get unique values of day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].unique(),df['day_ahead'].unique(),0.67,False,False,
-11,"Filter rows where pred is greater than 9.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] > 58.0],df.loc[df['pred'] > 9.0],0.67,False,False,
-12,"Compute count of rows grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models').size(),df.groupby('models')['power_OBS'].count(),0.68,False,False,
-13,"Return bottom 75.0 rows by day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(22.0, 'gain')","df.loc[df['day_ahead'].str.contains('2023-04-06'), :].tail(75.0)",0.29,False,False,
-14,"Compute the mean of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].mean(),df.groupby('LZ')['pred'].mean(),0.87,False,True,
-15,"Count unique values of pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].nunique(),df['pred'].nunique(),1.0,True,True,
-16,"Compute the max of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].max(),df.groupby('models')['gain'].max(),0.75,False,True,
-17,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-18,"Compute the min of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].min(),df.loc[df.groupby('LZ')['pred'].idxmin()].to_string(index=False),0.64,False,False,
-19,"Return bottom 73.0 rows by gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(179.0, 'day_ahead')",df.loc[df['gain'].tail(73).index],0.22,False,False,
-20,"Compute the sum of power_OBS grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].sum(),df.groupby('models')['power_OBS'].sum(),1.0,True,True,
-21,"Filter rows where pred is equal to79.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] == 173.0],df[df['pred'].eq(79.0)],0.59,False,False,
-22,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-23,"Return top 68.0 rows by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(127.0, 'pred')",df.loc[:68.0],0.31,False,False,
-24,"Filter rows where day_ahead is less than or equal to37.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 0.0],df[df['day_ahead'] <= 37.0],0.75,False,True,
-25,"Filter rows where day_ahead is less than 141.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 67.0],df[df['day_ahead'] < 141.0],0.67,False,False,
-26,"Return top 2.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(38.0, 'power_OBS')",df.loc[df['pred'].rank(method='dense') <= 2.0].to_dict('records'),0.27,False,False,
-27,"Filter rows where gain is greater than or equal to148.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] >= 151.0],df.loc[df['gain'] >= 148.0],0.62,False,False,
-28,"Compute the min of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].min(),df.groupby('LZ')['power_OBS'].min().reset_index(),0.58,False,False,
-29,"Count unique values of pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].nunique(),df['pred'].nunique(),0.8,False,True,
-30,"Count unique values of pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].nunique(),df['pred'].nunique(),0.8,False,True,
-31,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-32,"Filter rows where day_ahead is equal to5.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 15.0],df[df['day_ahead'] == 5.0],0.75,False,True,
-33,"Filter rows where day_ahead is equal to124.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 76.0],df[df['day_ahead'] == 124.0],0.68,False,False,
-34,"Filter rows where gain is less than 28.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] < 7.0],df[df['gain'] < 28.0],0.65,False,False,
-35,"Compute count of rows grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('models')['power_OBS'].count(),0.53,False,False,
-36,"Compute the max of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].max(),df.groupby('models')['gain'].max(),0.82,False,True,
-37,"Sort the DataFrame by day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='day_ahead'),0.95,True,True,
-38,"Get unique values of power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['day_ahead'].unique(),df['power_OBS'].unique(),0.67,False,False,
-39,"Compute the mean of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].mean(),df.groupby('LZ')['power_OBS'].mean(),0.78,False,True,
-40,"Compute the sum of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].sum(),df.groupby('LZ')['pred'].sum(),0.87,False,True,
-41,"Compute the mean and std of power_OBS grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['day_ahead'].agg(['mean','std'])","""""",0.0,False,False,
-42,"Return top 18.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(24.0, 'pred')",df.loc[:18.0],0.32,False,False,
-43,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-44,"Filter rows where gain is negative. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-45,"Compute the min of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].min(),df.loc[df.groupby('LZ')['pred'].idxmin()].to_string(index=False),0.55,False,False,
-46,"Return bottom 81.0 rows by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(136.0, 'gain')",df.loc[df['power_OBS'].str.contains('bottom')].tail(81),0.32,False,False,
-47,"Filter rows where pred is greater than 33.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] > 146.0],df[df['pred'] > 33.0],0.7,False,False,
-48,"Filter rows for a specific hour 161.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 197.0],df[df['INIT_DATE_TIME'].dt.hour == 161.0],0.95,True,True,
-49,"Sort the DataFrame by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='power_OBS'),0.67,False,False,
-50,"Compute the sum of gain grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].sum(),df.groupby('LZ')['gain'].sum(),0.7,False,False,
-51,"Compute the max of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].max(),df.groupby('models')['gain'].max(),1.0,True,True,
-52,"Get unique values of power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].unique(),df['power_OBS'].unique(),0.7,False,False,
-53,"Filter rows where day_ahead is greater than or equal to58.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] >= 64.0],df[df['day_ahead'] >= 58.0],0.69,False,False,
-54,"Compute the mean of day_ahead grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].mean(),df.groupby('LZ')['power_OBS'].mean().to_frame(),0.67,False,False,
-55,"Count unique values of day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].nunique(),df['day_ahead'].nunique(),0.68,False,False,
-56,"Filter rows for a specific hour 96.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 103.0],df[df['INIT_DATE_TIME'].dt.hour == 96.0],0.94,True,True,
-57,"Filter rows where pred is greater than 95.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 47.0],df.loc[df['pred'] > 95.0],0.67,False,False,
-58,"Filter rows where gain is greater than or equal to1.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] >= 186.0],df.loc[df['gain'] >= 1.0],0.64,False,False,
-59,"Return top 162.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(153.0, 'gain')",df.loc[:162.0],0.35,False,False,
-60,"Filter rows where pred is greater than 36.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 161.0],df[df['pred'] > 36.0],0.75,False,True,
-61,"Return top 53.0 rows by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(9.0, 'day_ahead')",df.loc[:53.0],0.29,False,False,
-62,"Filter rows where gain is equal to153.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 199.0],df.loc[df['gain'] == 153.0],0.84,False,True,
-63,"Filter rows where gain is negative. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-64,"Return top 56.0 rows by gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(150.0, 'gain')","df.nlargest(56.0, 'gain')",0.94,True,True,
-65,"Filter rows where gain is greater than 128.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] > 33.0],df[df['gain'] > 128.0],0.7,False,False,
-66,"Filter rows where gain is negative. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-67,"Compute the mean and std of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['pred'].agg(['mean','std'])","""""",0.0,False,False,
-68,"Compute count of rows grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('LZ').size().to_frame(name='count'),0.67,False,False,
-69,"Compute the min of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].min(),df.groupby('models')['gain'].min(),1.0,True,True,
-70,"Sort the DataFrame by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('pred'),df.sort_values(by='power_OBS'),0.77,False,True,
-71,"Filter rows where pred is greater than or equal to39.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 117.0],df.loc[df['pred'] >= 39.0],0.82,False,True,
-72,"Filter rows where power_OBS is equal to183.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] == 32.0],df.loc[df['power_OBS'] == 183.0],0.61,False,False,
-73,"Count unique values of gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].nunique(),df['gain'].nunique(),0.8,False,True,
-74,"Filter rows where gain is greater than or equal to130.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 33.0],df.loc[df['gain'] >= 130.0],0.69,False,False,
-75,"Filter rows where pred is equal to25.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] == 54.0],df.loc[df['pred'].astype(float) == 25.0],0.68,False,False,
-76,"Compute the max of gain grouped by LZ. 
+1,"Compute the max of gain grouped by LZ. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].max(),df.groupby('LZ')['gain'].max(),0.87,False,True,
-77,"Get unique values of power_OBS. 
+2,"Get unique values of power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['day_ahead'].unique(),df['power_OBS'].unique(),0.67,False,False,
+3,"Filter rows for a specific hour 17.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 161.0],df[df['INIT_DATE_TIME'].dt.hour == 17.0],0.96,True,True,
+4,"Filter rows for a specific hour 33.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 146.0],df[df['INIT_DATE_TIME'].dt.hour == 33.0],0.94,True,True,
+5,"Filter rows where pred is greater than 82.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 21.0],df[df['pred'] > 82.0],0.77,False,True,
+6,"Return bottom 77.0 rows by day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(176.0, 'day_ahead')","df.loc[df['day_ahead'].str.contains('bottom'), :].tail(77.0)",0.35,False,False,
+7,"Filter rows where day_ahead is less than 147.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 48.0],df[df['day_ahead'] < 147.0],0.71,False,True,
+8,"Filter rows where gain is less than or equal to94.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] <= 54.0],df[df['gain'] <= 94.0],0.73,False,True,
+9,"Compute the sum of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].sum(),df.groupby('LZ')['power_OBS'].sum(),0.75,False,True,
+10,"Return top 161.0 rows by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(127.0, 'power_OBS')","df.nlargest(161.0, 'gain')",0.7,False,True,
+11,"Filter rows where pred is less than 189.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] < 67.0],df[df['pred'] < 189.0],0.71,False,True,
+12,"Compute the mean and std of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('models')['gain'].agg(['mean','std'])","df.groupby('LZ')['power_OBS'].agg(['mean','std'])",0.78,False,True,
+13,"Compute the sum of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].sum(),df.groupby('LZ')['pred'].sum(),1.0,True,True,
+14,"Compute the mean of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].mean(),df.groupby('LZ')['power_OBS'].mean(),0.76,False,True,
+15,"Filter rows for a specific hour 151.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 171.0],df[df['INIT_DATE_TIME'].dt.hour == 151.0],0.98,True,True,
+16,"Filter rows where day_ahead is greater than or equal to26.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] >= 9.0],df[df['day_ahead'] >= 26.0],0.71,False,True,
+17,"Return bottom 114.0 rows by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(182.0, 'pred')",df.loc[df['power_OBS'].str.contains('bottom')].tail(114),0.27,False,False,
+18,"Compute count of rows grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models').size(),df.groupby('models')['power_OBS'].count(),0.68,False,False,
+19,"Sort the DataFrame by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='power_OBS'),0.67,False,False,
+20,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+21,"Compute the min of day_ahead grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].min(),df.groupby('LZ')['day_ahead'].min(),0.75,False,True,
+22,"Filter rows for a specific hour 82.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 33.0],df[df['INIT_DATE_TIME'].dt.hour == 82.0],0.95,True,True,
+23,"Filter rows where power_OBS is equal to34.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 67.0],df[df['power_OBS'] == 34.0],0.65,False,False,
+24,"Filter rows where power_OBS is less than 47.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] < 88.0],df[df['power_OBS'] < 47.0],0.72,False,True,
+25,"Compute the sum of power_OBS grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].sum(),df.groupby('models')['power_OBS'].sum(),0.88,False,True,
+26,"Compute the min of day_ahead grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].min(),df.groupby('models')['day_ahead'].min(),0.79,False,True,
+27,"Compute the sum of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].sum(),df.groupby('LZ')['pred'].sum(),0.88,False,True,
+28,"Sort the DataFrame by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('gain'),df.sort_values(by='gain'),0.94,True,True,
+29,"Get unique values of gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].unique(),df['gain'].unique(),0.7,False,False,
+30,"Compute the mean and std of gain grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('models')['gain'].agg(['mean','std'])","df.groupby('models')['gain'].agg(['mean','std'])",1.0,True,True,
+31,"Filter rows where power_OBS is greater than 41.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 17.0],df[df['power_OBS'] > 41.0],0.65,False,False,
+32,"Filter rows where day_ahead is greater than 124.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] > 41.0],df[df['day_ahead'] > 124.0],0.64,False,False,
+33,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+34,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+35,"Compute the min of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].min(),df.groupby('models')['pred'].min(),1.0,True,True,
+36,"Compute the mean of day_ahead grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].mean(),df.groupby('models')['day_ahead'].mean(),0.85,False,True,
+37,"Sort the DataFrame by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='pred'),0.77,False,True,
+38,"Compute the mean of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].mean(),df.groupby('models')['pred'].mean(),0.88,False,True,
+39,"Get unique values of power_OBS. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].unique(),df['power_OBS'].unique(),0.7,False,False,
-78,"Filter rows for a specific hour 78.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 94.0],df[df['INIT_DATE_TIME'].dt.hour == 78.0],0.95,True,True,
-79,"Filter rows where pred is less than 115.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] < 7.0],df[df['pred'] < 115.0],0.9,True,True,
-80,"Compute the sum of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].sum(),df.groupby('models')['gain'].sum(),0.88,False,True,
-81,"Compute the min of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['day_ahead'].min(),df.loc[df.groupby('LZ')['pred'].idxmin()].to_string(index=False),0.5,False,False,
-82,"Filter rows where power_OBS is less than or equal to186.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 104.0],df.loc[df['power_OBS'] <= 186.0],0.69,False,False,
-83,"Count unique values of gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].nunique(),df['gain'].nunique(),1.0,True,True,
-84,"Filter rows where day_ahead is equal to99.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] == 159.0],df[df['day_ahead'] == 99.0],0.76,False,True,
-85,"Compute the sum of day_ahead grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].sum(),df.groupby('models')['power_OBS'].sum(),0.82,False,True,
-86,"Compute the max of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].max(),df.loc[df.groupby('LZ')['pred'].idxmax()].to_dict(orient='records'),0.54,False,False,
-87,"Count unique values of gain. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].nunique(),df['gain'].nunique(),1.0,True,True,
-88,"Return top 114.0 rows by day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(166.0, 'pred')",df.loc[df['day_ahead'].rank(method='dense') <= 114.0],0.23,False,False,
-89,"Filter rows where power_OBS is less than or equal to87.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] <= 21.0],df.loc[df['power_OBS'].le(87.0)],0.71,False,True,
-90,"Compute the min of day_ahead grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].min(),"df.loc[df['models'].isin(['LZ']), ['day_ahead']].min(axis=0)",0.49,False,False,
-91,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-92,"Count unique values of day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].nunique(),df['day_ahead'].nunique(),0.68,False,False,
-93,"Filter rows where pred is greater than 43.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] > 17.0],df[df['pred'] > 43.0],0.72,False,True,
-94,"Filter rows where gain is equal to131.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 25.0],df.loc[df['gain'] == 131.0],0.82,False,True,
-95,"Compute the mean of gain grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].mean(),df.groupby('LZ')['gain'].mean(),0.88,False,True,
-96,"Compute the max of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].max(),df.groupby('LZ')['power_OBS'].max(),0.75,False,True,
-97,"Compute the min of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].min(),df.groupby('models')['gain'].min(),0.75,False,True,
-98,"Compute count of rows grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models').size(),df.groupby('LZ').size().to_frame(name='count'),0.58,False,False,
-99,"Filter rows where pred is greater than or equal to117.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 114.0],df.loc[df['pred'] >= 117.0],0.88,False,True,
-100,"Filter rows where pred is equal to118.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 28.0],df[df['pred'] == 118.0],0.76,False,True,
-101,"Compute the min of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].min(),df.groupby('models')['gain'].min(),0.88,False,True,
-102,"Compute the mean and std of day_ahead grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['gain'].agg(['mean','std'])","""""",0.0,False,False,
-103,"Count unique values of day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].nunique(),df['day_ahead'].nunique(),0.76,False,True,
-104,"Compute the max of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].max(),df.groupby('LZ')['power_OBS'].max(),0.8,False,True,
-105,"Filter rows where gain is equal to112.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 163.0],df.loc[df['gain'] == 112.0],0.62,False,False,
-106,"Filter rows where day_ahead is equal to169.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] == 40.0],df[df['day_ahead'] == 169.0],0.72,False,True,
-107,"Filter rows where day_ahead is equal to119.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 7.0],df[df['day_ahead'] == 119.0],0.69,False,False,
-108,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-109,"Compute the max of power_OBS grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].max(),df.groupby('models')['power_OBS'].max(),0.7,False,False,
-110,"Filter rows where pred is greater than 112.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] > 167.0],df[df['pred'] > 112.0],0.73,False,True,
-111,"Filter rows where day_ahead is greater than 138.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] > 189.0],df[df['day_ahead'] > 138.0],0.78,False,True,
-112,"Compute count of rows grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('LZ').size().to_frame(name='count'),0.67,False,False,
-113,"Compute the mean of gain grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].mean(),df.groupby('models')['gain'].mean(),0.83,False,True,
-114,"Compute the mean of day_ahead grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['power_OBS'].mean(),df.groupby('LZ')['power_OBS'].mean().to_frame(),0.87,False,True,
-115,"Filter rows where power_OBS is less than or equal to76.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 67.0],df.loc[df['power_OBS'].le(76.0)],0.56,False,False,
-116,"Filter rows where gain is negative. 
+40,"Filter rows where gain is negative. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-117,"Compute the max of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['day_ahead'].max(),df.loc[df.groupby('LZ')['pred'].idxmax()].to_dict(orient='records'),0.49,False,False,
-118,"Filter rows where gain is less than 160.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 171.0],df[df['gain'] < 160.0],0.91,True,True,
-119,"Get unique values of pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].unique(),df['pred'].unique(),1.0,True,True,
-120,"Filter rows where gain is equal to102.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 155.0],df.loc[df['gain'] == 102.0],0.84,False,True,
-121,"Filter rows where gain is equal to90.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 146.0],df.loc[df['gain'] == 90.0],0.59,False,False,
-122,"Filter rows where gain is negative. 
+41,"Compute the sum of day_ahead grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].sum(),df.groupby('LZ')['power_OBS'].sum(),0.89,False,True,
+42,"Compute the min of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].min(),df.groupby('LZ')['pred'].min(),0.86,False,True,
+43,"Filter rows where gain is less than 199.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] < 39.0],df[df['gain'] < 199.0],0.67,False,False,
+44,"Return top 119.0 rows by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(14.0, 'day_ahead')",df.loc[:119],0.24,False,False,
+45,"Filter rows where day_ahead is less than or equal to25.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] <= 114.0],df[df['day_ahead'] <= 25.0],0.62,False,False,
+46,"Sort the DataFrame by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('pred'),df.sort_values(by='gain'),0.77,False,True,
+47,"Filter rows where gain is greater than 186.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] > 20.0],df[df['gain'] > 186.0],0.7,False,False,
+48,"Compute the mean of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].mean(),df.groupby('LZ')['pred'].mean(),0.88,False,True,
+49,"Return bottom 9.0 rows by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(58.0, 'power_OBS')","df.loc[df['power_OBS'].str.contains('bottom 9.0'), :]",0.38,False,False,
+50,"Filter rows where gain is negative. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-123,"Return top 129.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(174.0, 'power_OBS')",df.loc[:128],0.23,False,False,
-124,"Filter rows for a specific hour 179.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 113.0],df[df['INIT_DATE_TIME'].dt.hour == 179.0],0.95,True,True,
-125,"Compute the mean of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].mean(),df.groupby('LZ')['pred'].mean(),1.0,True,True,
-126,"Filter rows where pred is greater than or equal to63.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 3.0],df.loc[df['pred'] >= 63.0],0.89,False,True,
-127,"Filter rows where pred is greater than or equal to63.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] >= 74.0],df.loc[df['pred'] >= 63.0],0.68,False,False,
-128,"Filter rows where pred is equal to166.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 125.0],df[df['pred'] == 166.0],0.75,False,True,
-129,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-130,"Compute the mean of gain grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].mean(),df.groupby('LZ')['gain'].mean(),0.87,False,True,
-131,"Compute the sum of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].sum(),df.groupby('LZ')['power_OBS'].sum(),0.86,False,True,
-132,"Return bottom 110.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(169.0, 'power_OBS')",df.loc[df['pred'].str.contains('bottom')].tail(110),0.29,False,False,
-133,"Return top 103.0 rows by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(127.0, 'power_OBS')",df.loc[:103.0],0.31,False,False,
-134,"Filter rows where pred is greater than or equal to5.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 11.0],df.loc[df['pred'] >= 5.0],0.85,False,True,
-135,"Return top 180.0 rows by day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(71.0, 'gain')","df.loc[df['day_ahead'].str.contains('2023-04-05'), :].head(180.0)",0.31,False,False,
-136,"Compute count of rows grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models').size(),df.groupby('LZ').size().to_frame(name='count'),0.58,False,False,
-137,"Compute the max of day_ahead grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].max(),"df.loc[df['models'].duplicated(), ['day_ahead']].max()",0.48,False,False,
-138,"Compute the max of power_OBS grouped by models. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].max(),df.groupby('models')['power_OBS'].max(),0.88,False,True,
-139,"Return top 44.0 rows by day_ahead. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(78.0, 'pred')",df.loc[df['day_ahead'].rank(method='dense') <= 44.0].to_dict('records'),0.29,False,False,
-140,"Compute the mean and std of power_OBS grouped by models. 
+51,"Sort the DataFrame by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='power_OBS'),0.67,False,False,
+52,"Compute count of rows grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('models')['power_OBS'].count(),0.53,False,False,
+53,"Filter rows where power_OBS is equal to170.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] == 77.0],df[df['power_OBS'] == 170.0],0.68,False,False,
+54,"Compute count of rows grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('LZ').size().reset_index(name='count'),0.64,False,False,
+55,"Filter rows where gain is less than or equal to3.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] <= 84.0],df[df['gain'] <= 3.0],0.67,False,False,
+56,"Filter rows where power_OBS is equal to90.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] == 158.0],df[df['power_OBS'] == 90.0],0.62,False,False,
+57,"Compute the mean and std of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['power_OBS'].agg(['mean','std'])","df.groupby('LZ')['pred'].agg(['mean','std'])",0.9,True,True,
+58,"Compute the mean and std of day_ahead grouped by models. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['day_ahead'].agg(['mean','std'])","""""",0.0,False,False,
-141,"Filter rows where gain is negative. 
+59,"Filter rows where gain is negative. 
 Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
-142,"Sort the DataFrame by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('gain'),df.sort_values(by='power_OBS'),0.69,False,False,
-143,"Return bottom 188.0 rows by pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(167.0, 'pred')",df.loc[df['pred'].tail(188).index],0.36,False,False,
-144,"Sort the DataFrame by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('pred'),df.sort_values(by='power_OBS'),0.77,False,True,
-145,"Extract hour from INIT_DATE_TIME. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour.tolist(),0.72,False,True,
-146,"Compute the max of pred grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].max(),df.loc[df.groupby('LZ')['pred'].idxmax()].to_dict(orient='records'),0.54,False,False,
-147,"Filter rows where power_OBS is less than or equal to52.0. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] <= 111.0],df.loc[df['power_OBS'] <= 52.0],0.59,False,False,
-148,"Count unique values of pred. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].nunique(),df['pred'].nunique(),1.0,True,True,
-149,"Sort the DataFrame by power_OBS. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('gain'),df.sort_values(by='power_OBS'),0.69,False,False,
-150,"Compute the min of power_OBS grouped by LZ. 
-Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].min(),df.groupby('LZ')['power_OBS'].min().reset_index(),0.66,False,False,
+60,"Return top 30.0 rows by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(135.0, 'day_ahead')","df.nlargest(30.0, 'power_OBS')",0.69,False,False,
+61,"Filter rows for a specific hour 139.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 94.0],df[df['INIT_DATE_TIME'].dt.hour == 139.0],0.96,True,True,
+62,"Filter rows where power_OBS is greater than or equal to129.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 149.0],df.loc[df['power_OBS'].ge(129.0)],0.57,False,False,
+63,"Compute the min of day_ahead grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['day_ahead'].min(),df.groupby('LZ')['day_ahead'].min(),0.89,False,True,
+64,"Compute the mean and std of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('models')['power_OBS'].agg(['mean','std'])","df.groupby('LZ')['power_OBS'].agg(['mean','std'])",0.92,True,True,
+65,"Compute the mean and std of day_ahead grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['pred'].agg(['mean','std'])","""""",0.0,False,False,
+66,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+67,"Return bottom 110.0 rows by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(4.0, 'power_OBS')",df.loc[df['pred'].tail(110).index],0.28,False,False,
+68,"Filter rows where gain is less than 196.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] < 16.0],df[df['gain'] < 196.0],0.75,False,True,
+69,"Compute the sum of gain grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].sum(),df.groupby('LZ')['gain'].sum(),0.83,False,True,
+70,"Compute the min of power_OBS grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].min(),df.groupby('models')['power_OBS'].min().reset_index(),0.58,False,False,
+71,"Count unique values of gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].nunique(),df['gain'].nunique(),0.8,False,True,
+72,"Get unique values of gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].unique(),df['gain'].unique(),1.0,True,True,
+73,"Sort the DataFrame by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('gain'),df.sort_values(by='pred'),0.77,False,True,
+74,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+75,"Compute the mean and std of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('models')['gain'].agg(['mean','std'])","df.groupby('LZ')['power_OBS'].agg(['mean','std'])",0.78,False,True,
+76,"Return bottom 116.0 rows by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(32.0, 'gain')",df.loc[df['pred'].astype(float).abs().argsort()[:116].index],0.26,False,False,
+77,"Compute the max of power_OBS grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].max(),df.groupby('models')['power_OBS'].max(),1.0,True,True,
+78,"Filter rows where pred is greater than or equal to19.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] >= 25.0],df[df['pred'] >= 19.0],0.91,True,True,
+79,"Compute the min of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].min(),df.groupby('LZ')['pred'].min(),0.75,False,True,
+80,"Get unique values of power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].unique(),df['power_OBS'].unique(),0.79,False,True,
+81,"Filter rows where day_ahead is less than or equal to181.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 130.0],df[df['day_ahead'] <= 181.0],0.75,False,True,
+82,"Filter rows where day_ahead is greater than or equal to74.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] >= 159.0],df[df['day_ahead'] >= 74.0],0.62,False,False,
+83,"Get unique values of power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['pred'].unique(),df['power_OBS'].unique(),0.79,False,True,
+84,"Filter rows where power_OBS is equal to195.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 73.0],df[df['power_OBS'] == 195.0],0.91,True,True,
+85,"Filter rows where pred is less than or equal to43.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] <= 141.0],df[df['pred'] <= 43.0],0.76,False,True,
+86,"Filter rows where power_OBS is greater than 188.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] > 81.0],df[df['power_OBS'] > 188.0],0.67,False,False,
+87,"Compute the min of gain grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].min(),df.groupby('LZ')['gain'].min(),0.87,False,True,
+88,"Filter rows where power_OBS is less than 37.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] < 54.0],df[df['power_OBS'] < 37.0],0.92,True,True,
+89,"Sort the DataFrame by day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='day_ahead'),0.95,True,True,
+90,"Compute the min of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].min(),df.groupby('models')['pred'].min(),0.88,False,True,
+91,"Compute the mean of power_OBS grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].mean(),df.groupby('LZ')['power_OBS'].mean(),0.78,False,True,
+92,"Filter rows where day_ahead is less than or equal to24.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 114.0],df[df['day_ahead'] <= 24.0],0.76,False,True,
+93,"Get unique values of pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['day_ahead'].unique(),df['pred'].unique(),0.79,False,True,
+94,"Return bottom 103.0 rows by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(151.0, 'power_OBS')",df.loc[df['power_OBS'].str.contains('bottom')].tail(103),0.36,False,False,
+95,"Compute the min of gain grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['day_ahead'].min(),df.groupby('models')['gain'].min(),0.72,False,True,
+96,"Filter rows where gain is equal to93.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] == 82.0],df[df['gain'] == 93.0],0.69,False,False,
+97,"Filter rows where power_OBS is greater than 53.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] > 199.0],df[df['power_OBS'] > 53.0],0.91,True,True,
+98,"Count unique values of day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].nunique(),df['day_ahead'].unique().size,0.59,False,False,
+99,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+100,"Compute the mean of gain grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].mean(),df.groupby('LZ')['gain'].mean(),0.88,False,True,
+101,"Filter rows where day_ahead is equal to22.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] == 175.0],df[df['day_ahead'] == 22.0],0.72,False,True,
+102,"Filter rows where day_ahead is equal to127.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] == 139.0],df[df['day_ahead'] == 127.0],0.93,True,True,
+103,"Compute the mean of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].mean(),df.groupby('models')['pred'].mean(),0.89,False,True,
+104,"Get unique values of day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['day_ahead'].unique(),df['day_ahead'].unique(),1.0,True,True,
+105,"Sort the DataFrame by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='power_OBS'),0.67,False,False,
+106,"Return top 190.0 rows by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(115.0, 'power_OBS')","df.nlargest(190.0, 'gain')",0.7,False,True,
+107,"Compute the max of day_ahead grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].max(),df.groupby('models')['day_ahead'].max(),0.72,False,True,
+108,"Filter rows where pred is less than or equal to61.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] <= 138.0],df[df['pred'] <= 61.0],0.76,False,True,
+109,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+110,"Filter rows where pred is equal to1.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] == 195.0],df[df['pred'].eq(1.0)],0.76,False,True,
+111,"Filter rows where power_OBS is greater than 122.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 26.0],df[df['power_OBS'] > 122.0],0.64,False,False,
+112,"Filter rows where day_ahead is greater than 119.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 85.0],df[df['day_ahead'] > 119.0],0.91,True,True,
+113,"Filter rows where pred is less than 173.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 77.0],df[df['pred'] < 173.0],0.74,False,True,
+114,"Filter rows where gain is greater than or equal to56.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] >= 44.0],df[df['gain'] >= 56.0],0.91,True,True,
+115,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+116,"Return top 93.0 rows by day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(20.0, 'power_OBS')","df.loc[df['day_ahead'].rank(method='dense', ascending=False).lt(94)].reset_index(drop=True)",0.21,False,False,
+117,"Return top 149.0 rows by pred. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(95.0, 'day_ahead')",df.loc[:149.0],0.32,False,False,
+118,"Compute the max of gain grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['power_OBS'].max(),df.groupby('LZ')['gain'].max(),0.8,False,True,
+119,"Compute the min of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['day_ahead'].min(),df.groupby('LZ')['pred'].min(),0.75,False,True,
+120,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+121,"Compute the min of pred grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['pred'].min(),df.groupby('LZ')['pred'].min(),1.0,True,True,
+122,"Filter rows where gain is greater than or equal to5.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] >= 19.0],df[df['gain'] >= 5.0],0.71,False,True,
+123,"Get unique values of gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].unique(),df['gain'].unique(),1.0,True,True,
+124,"Filter rows for a specific hour 19.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['INIT_DATE_TIME'].dt.hour == 6.0],df[df['INIT_DATE_TIME'].dt.hour == 19.0],0.96,True,True,
+125,"Filter rows where day_ahead is less than or equal to39.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] <= 199.0],df[df['day_ahead'] <= 39.0],0.76,False,True,
+126,"Filter rows where gain is greater than 101.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 98.0],df[df['gain'] > 101.0],0.67,False,False,
+127,"Compute count of rows grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ').size(),df.groupby('LZ').size().reset_index(name='count'),0.64,False,False,
+128,"Sort the DataFrame by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.sort_values('day_ahead'),df.sort_values(by='gain'),0.73,False,True,
+129,"Compute the min of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['gain'].min(),df.groupby('models')['pred'].min(),0.88,False,True,
+130,"Count unique values of power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['gain'].nunique(),df['power_OBS'].nunique(),0.71,False,True,
+131,"Compute the max of power_OBS grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['power_OBS'].max(),df.groupby('models')['power_OBS'].max(),1.0,True,True,
+132,"Return top 123.0 rows by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(174.0, 'gain')","df.nlargest(123.0, 'gain')",0.92,True,True,
+133,"Get unique values of gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['power_OBS'].unique(),df['gain'].unique(),0.7,False,False,
+134,"Filter rows where pred is greater than 103.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] > 180.0],df[df['pred'] > 103.0],0.78,False,True,
+135,"Extract hour from INIT_DATE_TIME. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df['hour'] = df['INIT_DATE_TIME'].dt.hour,df['INIT_DATE_TIME'].dt.hour[df.columns.get_level_values(0) == 'day_ahead'],0.48,False,False,
+136,"Filter rows where day_ahead is greater than 133.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] > 191.0],df[df['day_ahead'] > 133.0],0.73,False,True,
+137,"Return bottom 162.0 rows by gain. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(70.0, 'power_OBS')",df.loc[df['gain'].tail(162).index],0.22,False,False,
+138,"Filter rows where gain is greater than 124.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['pred'] > 196.0],df[df['gain'] > 124.0],0.73,False,True,
+139,"Compute the mean of day_ahead grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models')['pred'].mean(),df.groupby('models')['day_ahead'].mean(),0.88,False,True,
+140,"Filter rows where power_OBS is equal to58.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['power_OBS'] == 12.0],df[df['power_OBS'] == 58.0],0.93,True,True,
+141,"Compute the sum of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('LZ')['gain'].sum(),df.groupby('models')['pred'].sum(),0.75,False,True,
+142,"Return bottom 166.0 rows by power_OBS. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nsmallest(62.0, 'day_ahead')",df.loc[df['power_OBS'].str.contains('bottom')].tail(166),0.18,False,False,
+143,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+144,"Return top 140.0 rows by day_ahead. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.nlargest(28.0, 'pred')","df.loc[df['day_ahead'].str.contains('2023-05-06'), :].head(140.0)",0.29,False,False,
+145,"Filter rows where day_ahead is less than or equal to159.0. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['day_ahead'] <= 56.0],df[df['day_ahead'] <= 159.0],0.95,True,True,
+146,"Filter rows where gain is negative. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df[df['gain'] < 0],df[df['gain'] < 0],1.0,True,True,
+147,"Compute the mean and std of pred grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['pred'].agg(['mean','std'])","df.groupby('models')['pred'].agg(['mean','std'])",0.91,True,True,
+148,"Compute the mean and std of gain grouped by LZ. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['gain'].agg(['mean','std'])","df.groupby('LZ')['power_OBS'].agg(['mean', 'std'])",0.85,False,True,
+149,"Compute the mean and std of power_OBS grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain","df.groupby('LZ')['gain'].agg(['mean','std'])","df.groupby('models')['power_OBS'].agg(['mean','std'])",0.78,False,True,
+150,"Compute count of rows grouped by models. 
+Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",df.groupby('models').size(),df.groupby('models')['power_OBS'].count(),0.68,False,False,
