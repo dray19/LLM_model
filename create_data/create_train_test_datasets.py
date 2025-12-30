@@ -109,12 +109,12 @@ def create_train_examples(num_examples: int) -> List[dict]:
             "df[df['{col}'] > {val}]"
         ),
         (
-            "Filter rows where {col} is greater than or equal to{val}.",
+            "Filter rows where {col} is greater than or equal to {val}.",
             "Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",
             "df[df['{col}'] >= {val}]"
         ),
         (
-            "Filter rows where {col} is less than or equal to{val}.",
+            "Filter rows where {col} is less than or equal to {val}.",
             "Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",
             "df[df['{col}'] <= {val}]"
         ),
@@ -124,7 +124,7 @@ def create_train_examples(num_examples: int) -> List[dict]:
             "df[df['{col}'] < {val}]"
         ),
          (
-            "Filter rows where {col} is equal to{val}.",
+            "Filter rows where {col} is equal to {val}.",
             "Columns: INIT_DATE_TIME, LZ, models, power_OBS, day_ahead, pred, gain",
             "df[df['{col}'] == {val}]"
         ),
@@ -149,24 +149,28 @@ def create_train_examples(num_examples: int) -> List[dict]:
     examples = []
     for _ in range(num_examples):
         t = random.choice(templates)
+        val_col=random.choice(columns)
+        val_group=random.choice(groups)
+        val_dt=random.choice(dates)
+        val_num=round(random.uniform(0, 200),0)
         record = {
             "instruction": t[0].format(
-                col=random.choice(columns),
-                group=random.choice(groups),
-                dt=random.choice(dates),
-                val=round(random.uniform(0, 200),0)
+                col=val_col,
+                group=val_group,
+                dt=val_dt,
+                val=val_num
             ),
             "input": t[1].format(
-                col=random.choice(columns),
-                group=random.choice(groups),
-                dt=random.choice(dates),
-                val=round(random.uniform(0, 200),0)
+                col=val_col,
+                group=val_group,
+                dt=val_dt,
+                val=val_num
             ),
             "output": t[2].format(
-                col=random.choice(columns),
-                group=random.choice(groups),
-                dt=random.choice(dates),
-                val=round(random.uniform(0, 200),0)
+                col=val_col,
+                group=val_group,
+                dt=val_dt,
+                val=val_num
             )
         }
         examples.append(record)
@@ -205,7 +209,7 @@ def create_test_examples(train_examples: List) -> List[dict]:
             "- Always assign the final output to a variable named result.\n"
             "- Do NOT print unless explicitly requested.\n"
             "- Keep the code minimal, deterministic, and directly executable."},
-                {"role": "user", "content": example["instruction"] + " \n" + example["input"]}
+                {"role": "user", "content": example["instruction"]}
             ],
             "expected": example["output"]
         })
@@ -358,7 +362,7 @@ def create_unseen_examples(num_examples: int) -> List[dict]:
             "- Always assign the final output to a variable named result.\n"
             "- Do NOT print unless explicitly requested.\n"
             "- Keep the code minimal, deterministic, and directly executable."},
-                {"role": "user", "content": ex["instruction"] + " \n" + ex["input"]}
+                {"role": "user", "content": ex["instruction"]}
             ],
             "expected": ex["output"]
         })

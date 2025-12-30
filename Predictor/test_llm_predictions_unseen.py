@@ -30,7 +30,7 @@ def evaluate_model(test_file, output_csv):
         print(f"Evaluating Test Case {i + 1}...")
         try:
             # Generate response
-            response = predictor.generate_response(test["messages"])
+            response = predictor.generate_response(test["messages"][1]['content'])
             response = response.replace("```python", "").replace("```", "").strip()
             response = response.replace("result =", "").strip()
             print(f"Generated: {response}")

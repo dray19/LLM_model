@@ -34,7 +34,39 @@ class LLMPredictor:
 
         return model
 
-    def generate_response(self, messages, max_new_tokens=80, do_sample=False):
+    def generate_response(self, question, max_new_tokens=80, do_sample=False):
+        messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are a code generator. Respond with ONLY valid Python code. "
+                "No explanations. No markdown. No imports. NO sample data.\n\n"
+                "Rules:\n"
+                "- You MUST assume a pandas DataFrame named df already exists in memory and is the ONLY input dataset.\n"
+                "- Generate code that operates ONLY on df or intermediate objects derived directly from df.\n"
+                "- Do NOT reference external variables, files, paths, configs, or objects not derived from df.\n"
+                "- Do NOT read from or write to disk.\n"
+                "- Do NOT make network calls.\n"
+                "- Do NOT use randomness or non-deterministic behavior.\n"
+                "- Do NOT use unsafe operations (eval, exec, compile, ast, subprocess, os, shell commands).\n"
+                "- Do NOT mutate df unless explicitly requested; prefer creating new objects.\n"
+                "- Avoid chained assignment; use .loc for assignments.\n"
+                "- Do NOT assume column dtypes; handle numeric vs non-numeric safely.\n"
+                "- For groupby aggregations, use numeric_only=True when appropriate.\n"
+                "- Guard against missing columns: if required columns are missing, assign result to "
+                "a clear error string like \"ERROR: missing columns: ['col1', 'col2']\".\n"
+                "- Always assign the final output to a variable named result.\n"
+                "- Do NOT print unless explicitly requested.\n"
+                "- Keep the code minimal, deterministic, and directly executable."
+            ),
+        },
+        {
+            "role": "user",
+            "content": (
+                f"Question:\n{question}"
+            ),
+        },
+        ]
         prompt = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
 
@@ -83,10 +115,12 @@ if __name__ == "__main__":
     {
         "role": "user",
         "content": (
-            "Compute the sum of power_OBS grouped by LZ.\n Columns: INIT_DATE_TIME, LZ, power_OBS, day_ahead, price, gain"
+            "Filter rows where gain is less than 50"
         ),
     },
-]
+    ]
 
-    response = predictor.generate_response(messages)
+    response = predictor.generate_response(messages[1]['content'])
+    response = response.replace("```python", "").replace("```", "").strip()
+    response = response.replace("result =", "").strip()
     print(response)

@@ -46,7 +46,8 @@ def format_example(ex):
     # Build the chat WITHOUT the assistant answer (ends with assistant prompt)
     messages_prompt = [
         {"role": "system", "content": "You are a helpful data analysis assistant."},
-        {"role": "user", "content": f"{ex['instruction']}\n{ex['input']}"},
+        # {"role": "user", "content": f"{ex['instruction']}\n{ex['input']}"},
+        {"role": "user", "content": f"{ex['instruction']}"},
     ]
     prompt_text = tokenizer.apply_chat_template(
         messages_prompt,

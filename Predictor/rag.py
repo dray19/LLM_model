@@ -3,9 +3,10 @@ import numpy as np
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 from sentence_transformers import SentenceTransformer
+import json
 
 
-class LLMPredictor:
+class LLMPredictorRAG:
     def __init__(
         self,
         base_model="Qwen/Qwen2.5-1.5B-Instruct",
@@ -27,6 +28,23 @@ class LLMPredictor:
         self.embedder = SentenceTransformer(embedding_model)
         self.documents = []
         self.doc_embeddings = None
+
+
+    # --------------------------------------------------
+    # Static Method for Loading JSONL
+    # --------------------------------------------------
+    @staticmethod
+    def load_jsonl(file_path):
+        docs = []
+        with open(file_path, "r") as file:
+            for line in file:
+                try:
+                    data = json.loads(line)
+                    # Assuming each line has a "code" or "text" field containing the document
+                    docs.append(data.get("output", "").strip())
+                except json.JSONDecodeError:
+                    print(f"Error decoding line: {line}")
+        return docs
 
     # --------------------------------------------------
     # Initialization
@@ -129,18 +147,36 @@ class LLMPredictor:
             {
                 "role": "system",
                 "content": (
-                    "You are a senior Python engineer. "
-                    "Answer using ONLY the provided code context."
+            "You are a code generator. Respond with ONLY valid Python code. "
+            "No explanations. No markdown. No imports. NO sample data.\n\n"
+            "Rules:\n"
+            "- You MUST assume a pandas DataFrame named df already exists in memory and is the ONLY input dataset.\n"
+            "- Generate code that operates ONLY on df or intermediate objects derived directly from df.\n"
+            "- Do NOT reference external variables, files, paths, configs, or objects not derived from df.\n"
+            "- Do NOT read from or write to disk.\n"
+            "- Do NOT make network calls.\n"
+            "- Do NOT use randomness or non-deterministic behavior.\n"
+            "- Do NOT use unsafe operations (eval, exec, compile, ast, subprocess, os, shell commands).\n"
+            "- Do NOT mutate df unless explicitly requested; prefer creating new objects.\n"
+            "- Avoid chained assignment; use .loc for assignments.\n"
+            "- Do NOT assume column dtypes; handle numeric vs non-numeric safely.\n"
+            "- For groupby aggregations, use numeric_only=True when appropriate.\n"
+            "- Guard against missing columns: if required columns are missing, assign result to "
+            "a clear error string like \"ERROR: missing columns: ['col1', 'col2']\".\n"
+            "- Always assign the final output to a variable named result.\n"
+            "- Do NOT print unless explicitly requested.\n"
+            "- Keep the code minimal, deterministic, and directly executable."
                 )
             },
             {
                 "role": "user",
                 "content": (
                     f"Code context:\n{context}\n\n"
-                    f"Question:\n{question}"
+                f"Question:\n{question}"
                 )
             }
         ]
+
 
         return self.generate_response(
             messages,
@@ -149,31 +185,49 @@ class LLMPredictor:
         )
     
 if __name__ == "__main__":
-    code_docs = [
-        """
-        def compute_mean(df, col):
-            return df[col].mean()
-        """,
-            """
-        df.groupby(["models", "LZ"])["gain"].mean().reset_index()
-        """,
-            """
-        df["hour"] = df["INIT_DATE_TIME"].dt.hour
-        """,
-            """
-        df.sort_values("day_ahead", ascending=False)
-        """
-        ]
+    code_docs = LLMPredictorRAG.load_jsonl("data/train.jsonl")
 
-    llm = LLMPredictor(
-            base_model="Qwen/Qwen2.5-1.5B-Instruct",
-            lora_path="models/lora"
-        )
+    llm = LLMPredictorRAG()
 
     llm.set_documents(code_docs)
 
-    answer = llm.generate_response_rag(
-            "Compute the mean and std of power_OBS grouped by LZ and sort  by day_ahead?"
-        )
+    messages = [
+            {
+                "role": "system",
+                "content": (
+            "You are a code generator. Respond with ONLY valid Python code. "
+            "No explanations. No markdown. No imports. NO sample data.\n\n"
+            "Rules:\n"
+            "- You MUST assume a pandas DataFrame named df already exists in memory and is the ONLY input dataset.\n"
+            "- Generate code that operates ONLY on df or intermediate objects derived directly from df.\n"
+            "- Do NOT reference external variables, files, paths, configs, or objects not derived from df.\n"
+            "- Do NOT read from or write to disk.\n"
+            "- Do NOT make network calls.\n"
+            "- Do NOT use randomness or non-deterministic behavior.\n"
+            "- Do NOT use unsafe operations (eval, exec, compile, ast, subprocess, os, shell commands).\n"
+            "- Do NOT mutate df unless explicitly requested; prefer creating new objects.\n"
+            "- Avoid chained assignment; use .loc for assignments.\n"
+            "- Do NOT assume column dtypes; handle numeric vs non-numeric safely.\n"
+            "- For groupby aggregations, use numeric_only=True when appropriate.\n"
+            "- Guard against missing columns: if required columns are missing, assign result to "
+            "a clear error string like \"ERROR: missing columns: ['col1', 'col2']\".\n"
+            "- Always assign the final output to a variable named result.\n"
+            "- Do NOT print unless explicitly requested.\n"
+            "- Keep the code minimal, deterministic, and directly executable."
+                )
+            },
+            {
+                "role": "user",
+                "content": (
+                    "Filter rows where gain is less than 50"
+                )
+            }
+        ]
 
-    print(answer)
+    answer = llm.generate_response_rag(
+        messages[1]['content']
+        )
+    response = answer.replace("```python", "").replace("```", "").strip()
+    response = response.replace("result =", "").strip()
+
+    print(response)
