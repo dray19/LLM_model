@@ -1,7 +1,7 @@
 import json
 import csv
 from difflib import SequenceMatcher
-from test_infer import LLMPredictor
+from model_predictor import LLMPredictor
 
 def calculate_similarity(expected, generated):
     """Calculate similarity between expected and generated strings using SequenceMatcher."""

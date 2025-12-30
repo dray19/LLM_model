@@ -1,4 +1,4 @@
-from test_basemodel import BaseModelPredictor
+from basemodel import BaseModelPredictor
 import json
 import csv
 from difflib import SequenceMatcher
