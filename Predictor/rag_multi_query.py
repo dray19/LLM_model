@@ -12,7 +12,8 @@ class LLMPredictorRAG_MultiQuery:
         base_model="Qwen/Qwen2.5-1.5B-Instruct",
         lora_path="models/lora",
         device=None,
-        embedding_model="all-MiniLM-L6-v2"
+        # embedding_model="all-MiniLM-L6-v2"
+        embedding_model="all-mpnet-base-v2"
     ):
         self.base_model = base_model
         self.lora_path = lora_path
@@ -97,15 +98,22 @@ class LLMPredictorRAG_MultiQuery:
         queries = [question]
 
         q_lower = question.lower()
+        
+
+        # if "return" in q_lower:
+        #     queries.append(question.replace("Return", "Select the"))
+        #     queries.append(question.replace("Return", "Retrieve the"))
 
         if "mean" in q_lower:
             queries.append(question.replace("mean", "average"))
 
-        if "group" in q_lower:
+        elif "group" in q_lower:
             queries.append(f"pandas groupby {question}")
 
-        queries.append(f"pandas {question}")
-        queries.append(f"pandas error {question}")
+        else:
+            queries.append(f"pandas {question}")
+            queries.append(f"pandas error {question}")
+
 
         return list(dict.fromkeys(queries))
     
@@ -154,6 +162,7 @@ class LLMPredictorRAG_MultiQuery:
             )
 
         reranked.sort(key=lambda x: x["final_score"], reverse=True)
+        print([r["text"] for r in reranked[:top_k]])
         return [r["text"] for r in reranked[:top_k]]
 
     # --------------------------------------------------
@@ -202,7 +211,7 @@ class LLMPredictorRAG_MultiQuery:
                     per_query_k=8
                 )
         context = "\n\n---\n\n".join(retrieved_code)
-
+        
         messages = [
             {
                 "role": "system",
@@ -279,7 +288,7 @@ if __name__ == "__main__":
             {
                 "role": "user",
                 "content": (
-                    "Return top 112.0 rows by gain?"
+                    "Return top 112.0 rows by gain"
                 )
             }
         ]
