@@ -1,203 +1,101 @@
 test_case_id,instruction,expected_output,generated_output,similarity_score,is_correct,method_correct,error
-1,"Get unique values of wind_fcst. 
-Columns: start_time, power, method, wind_fcst, price_rt, price_da",df['wind_fcst'].unique(),df['wind_fcst'].unique(),1.0,True,True,
-2,"Compute count of rows grouped by region. 
-Columns: start_time, price_rt_delta, total, region, wind_fcst, price_rt, price_da",df.groupby('region').size(),df.groupby('region')['total'].count(),0.72,False,True,
-3,"Compute count of rows grouped by region. 
-Columns: fcst_time, power, total, region, day_ahead_forecast, price_rt, price_da",df.groupby('region').size(),df.groupby('region')['power'].count(),0.72,False,True,
-4,"Return top 7 rows by wind_fcst. 
-Columns: start_time, predicted, power, method, wind_fcst, day_ahead_forecast, price_rt, price_da","df.nlargest(24, 'wind_fcst')","df.loc[df['wind_fcst'].str.contains('FCST'), :].nlargest(7)",0.37,False,False,
-5,"Filter rows for a specific hour 72. 
-Columns: predicted, fcst_time, total, wind_fcst_err, day_ahead_forecast, load_fcst, zone, price_rt",df[df['fcst_time'].dt.hour == 47],df[df['fcst_time'].dt.hour == 72],0.97,True,True,
-6,"Compute the sum of wind_fcst grouped by zone. 
-Columns: predicted, fcst_time, power, wind_fcst, load_fcst, zone",df.groupby('zone')['wind_fcst'].sum(),df.groupby('zone')['wind_fcst'].sum(),1.0,True,True,
-7,"Get unique values of price_rt_delta. 
-Columns: start_time, price_rt_delta, power, total, method, load_fcst, price_da",df['price_rt_delta'].unique(),df['price_rt_delta'].unique(),1.0,True,True,
-8,"Get unique values of predicted_delta. 
-Columns: predicted, predicted_delta, fcst_time, power, total, region, price_rt",df['predicted_delta'].unique(),df['predicted_delta'].unique(),1.0,True,True,
-9,"Count unique values of predicted_adj. 
-Columns: start_time, predicted, predicted_adj, method, wind_fcst, day_ahead_forecast, price_da",df['predicted_adj'].nunique(),df['predicted_adj'].unique().size,0.9,True,True,
-10,"Compute the sum of solar_fcst_adj grouped by method. 
-Columns: start_time, predicted, total, method, wind_fcst, day_ahead_forecast, load_fcst, solar_fcst_adj",df.groupby('method')['solar_fcst_adj'].sum(),"""""  
-if 'start_time' in df.columns and 'predicted' in df.columns and 'total' in df.columns and 'method' in df.columns and 'wind_fcst' in df.columns and 'day_ahead_forecast' in df.columns and 'load_fcst' in df.columns and 'solar_fcst_adj' in df.columns:  
-     df.groupby('method')['solar_fcst_adj'].sum().reset_index()",0.24,False,False,
-11,"Extract hour from fcst_time. 
-Columns: fcst_time, total, region, wind_fcst, day_ahead_forecast, load_fcst, price_rt",df['hour'] = df['fcst_time'].dt.hour,"df.loc[:, 'fcst_time'].dt.hour.values.tolist()",0.59,False,False,
-12,"Get unique values of power. 
-Columns: fcst_time, power, load_fcst, zone, price_rt, price_da",df['power'].unique(),df['power'].unique(),1.0,True,True,
-13,"Sort the DataFrame by wind_fcst. 
-Columns: fcst_time, power, wind_fcst, day_ahead_forecast, load_fcst, zone, price_rt",df.sort_values('wind_fcst'),df.sort_values(by='wind_fcst'),0.95,True,True,
-14,"Filter rows for a specific hour 181. 
-Columns: start_time, predicted, total_err, power, method, day_ahead_forecast, price_da",df[df['start_time'].dt.hour == 98],df[df['start_time'].dt.hour == 181],0.96,True,True,
-15,"Get unique values of solar_fcst_adj. 
-Columns: start_time, predicted, method, load_fcst, solar_fcst_adj, price_da",df['solar_fcst_adj'].unique(),df['solar_fcst_adj'].unique(),1.0,True,True,
-16,"Compute the mean of predicted_delta grouped by zone. 
-Columns: predicted, predicted_delta, fcst_time, power, wind_fcst, day_ahead_forecast, zone, price_rt",df.groupby('zone')['predicted_delta'].mean(),"""""",0.0,False,False,
-17,"Get unique values of price_rt_delta. 
-Columns: predicted, price_rt_delta, fcst_time, region, wind_fcst, load_fcst, price_rt",df['price_rt_delta'].unique(),df['price_rt_delta'].unique(),1.0,True,True,
-18,"Filter rows for a specific hour 114. 
-Columns: start_time, price_rt_adj, predicted, total, load_fcst, region, price_da",df[df['start_time'].dt.hour == 43],df[df['start_time'].dt.hour == 11],0.94,True,True,
-19,"Sort the DataFrame by predicted. 
-Columns: predicted, fcst_time, power, load_fcst, zone, price_rt",df.sort_values('predicted'),df.sort_values(by='predicted'),0.95,True,True,
-20,"Filter rows for a specific hour 62. 
-Columns: start_time, power, load_fcst, zone, price_rt, price_da",df[df['start_time'].dt.hour == 128],df[df['start_time'].dt.hour == 62],0.96,True,True,
-21,"Compute the sum of wind_fcst grouped by region. 
-Columns: predicted, fcst_time, region, wind_fcst, day_ahead_forecast, price_rt, price_da",df.groupby('region')['wind_fcst'].sum(),df.groupby('region')['wind_fcst'].sum(),1.0,True,True,
-22,"Compute the mean of wind_fcst grouped by method. 
-Columns: fcst_time, power, method, wind_fcst, day_ahead_forecast, load_fcst, price_da",df.groupby('method')['wind_fcst'].mean(),"""""",0.0,False,False,
-23,"Count unique values of load_fcst. 
-Columns: predicted, fcst_time, power, region, day_ahead_forecast, load_fcst, price_rt, price_da",df['load_fcst'].nunique(),df['load_fcst'].nunique(),1.0,True,True,
-24,"Compute the sum of solar_fcst_v2 grouped by region. 
-Columns: solar_fcst_v2, fcst_time, power, total, region, day_ahead_forecast, price_rt",df.groupby('region')['solar_fcst_v2'].sum(),"""""",0.0,False,False,
-25,"Compute the sum of power grouped by region. 
-Columns: start_time, predicted, power, wind_fcst, day_ahead_forecast, load_fcst, region",df.groupby('region')['power'].sum(),"""""",0.0,False,False,
-26,"Compute count of rows grouped by method. 
-Columns: start_time, price_rt_delta, power, method, load_fcst, price_rt",df.groupby('method').size(),df.groupby('method')['start_time'].count(),0.67,False,False,
-27,"Compute the mean of total_raw grouped by method. 
-Columns: predicted, fcst_time, method, wind_fcst, day_ahead_forecast, load_fcst, total_raw, price_da",df.groupby('method')['total_raw'].mean(),df.groupby('method')['total_raw'].mean(),1.0,True,True,
-28,"Filter rows for a specific hour 138. 
-Columns: predicted, fcst_time, power, method, solar_fcst_delta, load_fcst",df[df['fcst_time'].dt.hour == 32],df[df['fcst_time'].dt.hour == 138],0.96,True,True,
-29,"Count unique values of price_rt. 
-Columns: predicted, fcst_time, total, region, wind_fcst, day_ahead_forecast, price_rt, price_da",df['price_rt'].nunique(),df['price_rt'].unique().size,0.88,False,True,
-30,"Compute the mean of day_ahead_forecast grouped by region. 
-Columns: start_time, predicted, power, wind_fcst, day_ahead_forecast, region, price_da",df.groupby('region')['day_ahead_forecast'].mean(),df.groupby('region')['day_ahead_forecast'].mean(),1.0,True,True,
-31,"Compute the mean and std of wind_fcst grouped by zone. 
-Columns: start_time, power, wind_fcst, day_ahead_forecast, load_fcst, zone","df.groupby('zone')['wind_fcst'].agg(['mean','std'])","""""",0.0,False,False,
-32,"Sort the DataFrame by wind_fcst_scaled. 
-Columns: start_time, total, region, wind_fcst_scaled, day_ahead_forecast, load_fcst, price_rt",df.sort_values('wind_fcst_scaled'),df.sort_values(by='wind_fcst_scaled'),0.96,True,True,
-33,"Compute the mean and std of total_scaled grouped by method. 
-Columns: start_time, power, total, method, total_scaled, price_rt, price_da","df.groupby('method')['total_scaled'].agg(['mean','std'])","""""",0.0,False,False,
-34,"Compute the mean and std of day_ahead_forecast grouped by zone. 
-Columns: fcst_time, day_ahead_forecast, load_fcst, zone, price_da","df.groupby('zone')['day_ahead_forecast'].agg(['mean','std'])","""""",0.0,False,False,
-35,"Compute the mean and std of total_adj grouped by region. 
-Columns: start_time, total, day_ahead_forecast, total_adj, price_rt, region","df.groupby('region')['total_adj'].agg(['mean','std'])","""""",0.0,False,False,
-36,"Extract hour from start_time. 
-Columns: start_time, method, total, wind_fcst_v2, load_fcst, price_rt",df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour.values.tolist(),0.62,False,False,
-37,"Compute the mean and std of price_da grouped by zone. 
-Columns: predicted, fcst_time, power, wind_fcst, zone, price_da","df.groupby('zone')['price_da'].agg(['mean','std'])","""""",0.0,False,False,
-38,"Get unique values of total. 
-Columns: fcst_time, method, total, wind_fcst, day_ahead_forecast, price_rt",df['total'].unique(),df['total'].unique(),1.0,True,True,
-39,"Sort the DataFrame by solar_fcst_err. 
-Columns: predicted, fcst_time, method, wind_fcst, day_ahead_forecast, solar_fcst_err, price_rt, price_da",df.sort_values('solar_fcst_err'),df.sort_values(by='solar_fcst_err'),0.96,True,True,
-40,"Count unique values of load_fcst_v2. 
-Columns: predicted, fcst_time, power, total, load_fcst_v2, wind_fcst, zone, price_rt",df['load_fcst_v2'].nunique(),df['load_fcst_v2'].nunique(),1.0,True,True,
-41,"Compute the mean of load_fcst grouped by zone. 
-Columns: start_time, total, wind_fcst, day_ahead_forecast, load_fcst, zone, price_da",df.groupby('zone')['load_fcst'].mean(),"""""",0.0,False,False,
-42,"Get unique values of total. 
-Columns: fcst_time, power, method, total, day_ahead_forecast, price_rt",df['total'].unique(),df['total'].unique(),1.0,True,True,
-43,"Compute count of rows grouped by region. 
-Columns: predicted, fcst_time, total, load_fcst, price_rt, region",df.groupby('region').size(),df.groupby('region')['predicted'].count(),0.68,False,False,
-44,"Filter rows where price_da is greater than 27. 
-Columns: predicted, fcst_time, power, region, load_fcst, price_rt, price_da",df[df['price_da'] > 148],df[df['price_da'] > 27],0.89,False,True,
-45,"Compute the mean of wind_fcst grouped by zone. 
-Columns: start_time, predicted, power, wind_fcst, zone, price_rt, price_da",df.groupby('zone')['wind_fcst'].mean(),df.groupby('zone')['wind_fcst'].mean(),1.0,True,True,
-46,"Compute the mean of wind_fcst_err grouped by region. 
-Columns: start_time, predicted, power, total, region, wind_fcst, wind_fcst_err, price_rt",df.groupby('region')['wind_fcst_err'].mean(),df.groupby('region')['wind_fcst_err'].mean(),1.0,True,True,
-47,"Compute the mean and std of power grouped by region. 
-Columns: fcst_time, power, load_fcst, region, price_da","df.groupby('region')['power'].agg(['mean','std'])","""""",0.0,False,False,
-48,"Sort the DataFrame by load_fcst. 
-Columns: fcst_time, power, method, wind_fcst, load_fcst, price_da",df.sort_values('load_fcst'),df.sort_values(by='load_fcst'),0.95,True,True,
-49,"Compute the sum of predicted grouped by zone. 
-Columns: start_time, predicted, power, wind_fcst, day_ahead_forecast, zone, price_da",df.groupby('zone')['predicted'].sum(),"""""",0.0,False,False,
-50,"Count unique values of load_fcst_raw. 
-Columns: start_time, predicted, power, load_fcst, zone, price_rt, load_fcst_raw",df['load_fcst_raw'].nunique(),df['load_fcst_raw'].nunique(),1.0,True,True,
-51,"Filter rows where day_ahead_forecast is greater than 197. 
-Columns: start_time, power, total, method, day_ahead_forecast",df[df['day_ahead_forecast'] > 36],df[df['day_ahead_forecast'] > 197],0.93,True,True,
-52,"Return top 129 rows by total. 
-Columns: fcst_time, total, wind_fcst, day_ahead_forecast, load_fcst, zone, price_da","df.nlargest(144, 'total')",df.loc[:128],0.27,False,False,
-53,"Filter rows where predicted_scaled is greater than 148. 
-Columns: start_time, predicted, predicted_scaled, power, wind_fcst, day_ahead_forecast, region",df[df['predicted_scaled'] > 110],df[df['predicted_scaled'] > 148],0.94,True,True,
-54,"Compute the sum of load_fcst grouped by method. 
-Columns: start_time, predicted, power, total, method, load_fcst, price_rt",df.groupby('method')['load_fcst'].sum(),df.groupby('method')['load_fcst'].sum(),1.0,True,True,
-55,"Return bottom 191 rows by total. 
-Columns: predicted, fcst_time, power, total, day_ahead_forecast, load_fcst, zone, price_rt","df.nsmallest(87, 'total')",df.loc[df['total'].abs().argsort()[-191:]].to_string(index=False),0.27,False,False,
-56,"Filter rows for a specific hour 61. 
-Columns: start_time, power, total, day_ahead_forecast, load_fcst, zone, price_da",df[df['start_time'].dt.hour == 27],df[df['start_time'].dt.hour == 61],0.94,True,True,
-57,"Extract hour from start_time. 
-Columns: start_time, power, total, region, wind_fcst, day_ahead_forecast, price_rt, price_da",df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour.values.tolist(),0.62,False,False,
-58,"Compute the sum of price_da grouped by region. 
-Columns: predicted, fcst_time, wind_fcst, day_ahead_forecast, region, price_da",df.groupby('region')['price_da'].sum(),df.groupby('region')['price_da'].sum(),1.0,True,True,
-59,"Return top 95 rows by wind_fcst_v2. 
-Columns: start_time, predicted, method, wind_fcst, wind_fcst_v2, day_ahead_forecast, price_da","df.nlargest(74, 'wind_fcst_v2')",df.loc[:94],0.24,False,False,
-60,"Compute count of rows grouped by region. 
-Columns: predicted, fcst_time, total, region, day_ahead_forecast, price_rt, predicted_err",df.groupby('region').size(),df.groupby('region')['predicted'].count(),0.68,False,False,
-61,"Count unique values of predicted. 
-Columns: start_time, predicted, total, method, wind_fcst, price_rt, price_da",df['predicted'].nunique(),df['predicted'].nunique(),1.0,True,True,
-62,"Sort the DataFrame by wind_fcst. 
-Columns: start_time, power, wind_fcst, day_ahead_forecast, region, price_da",df.sort_values('wind_fcst'),df.sort_values(by='wind_fcst'),0.95,True,True,
-63,"Filter rows where price_da is greater than 186. 
-Columns: fcst_time, power, wind_fcst, load_fcst, zone, price_da",df[df['price_da'] > 169],df.loc[df['price_da'] > 186],0.88,False,True,
-64,"Compute the sum of price_rt_v2 grouped by region. 
-Columns: start_time, region, day_ahead_forecast, load_fcst, price_rt, price_rt_v2, price_da",df.groupby('region')['price_rt_v2'].sum(),df.groupby('region')['price_rt_v2'].sum(),1.0,True,True,
-65,"Sort the DataFrame by price_rt_err. 
-Columns: price_rt_err, fcst_time, total, method, load_fcst, price_da",df.sort_values('price_rt_err'),df.sort_values(by='price_rt_err'),0.95,True,True,
-66,"Return bottom 40 rows by price_rt. 
-Columns: start_time, total, wind_fcst, load_fcst, zone, price_rt, price_da","df.nsmallest(20, 'price_rt')",df.loc[df['price_rt'].astype(float).rank(pct=True) <= 0.6],0.35,False,False,
-67,"Return top 40 rows by predicted_err. 
-Columns: start_time, predicted_err, total, region, day_ahead_forecast, load_fcst, price_rt, price_da","df.nlargest(42, 'predicted_err')","df.loc[df['predicted_err'].rank(method='dense', ascending=False).argsort()[:40]]",0.36,False,False,
-68,"Extract hour from fcst_time. 
-Columns: wind_fcst_adj, fcst_time, power, load_fcst, region, price_da",df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour[df.columns.get_loc('power')],0.52,False,False,
-69,"Count unique values of solar_fcst_scaled. 
-Columns: start_time, load_fcst, power, total, wind_fcst, solar_fcst_scaled, zone",df['solar_fcst_scaled'].nunique(),df['solar_fcst_scaled'].nunique(),1.0,True,True,
-70,"Count unique values of price_rt. 
-Columns: fcst_time, method, day_ahead_forecast, load_fcst, price_rt",df['price_rt'].nunique(),df['price_rt'].unique().size,0.88,False,True,
-71,"Compute the mean and std of price_rt_err grouped by zone. 
-Columns: start_time, price_rt_err, power, total, wind_fcst, load_fcst, zone","df.groupby('zone')['price_rt_err'].agg(['mean','std'])","""""",0.0,False,False,
-72,"Extract hour from fcst_time. 
-Columns: predicted, predicted_adj, fcst_time, method, day_ahead_forecast, load_fcst",df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour[df.columns.get_level_values(0) == 'predicted_adj'],0.42,False,False,
-73,"Filter rows for a specific hour 167. 
-Columns: start_time, predicted, method, total, wind_fcst, price_da",df[df['start_time'].dt.hour == 86],df[df['start_time'].str.match('167')],0.7,False,True,
-74,"Extract hour from start_time. 
-Columns: start_time, predicted, method, wind_fcst, day_ahead_forecast, price_rt, price_da",df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour.values.tolist(),0.62,False,False,
-75,"Filter rows for a specific hour 32. 
-Columns: wind_fcst_delta, fcst_time, power, total, price_rt, region",df[df['fcst_time'].dt.hour == 13],df[df['fcst_time'].dt.hour == 32],0.97,True,True,
-76,"Filter rows for a specific hour 62. 
-Columns: start_time, predicted, wind_fcst, load_fcst, zone, price_rt, price_da",df[df['start_time'].dt.hour == 184],df[df['start_time'].dt.hour == 62],0.93,True,True,
-77,"Extract hour from fcst_time. 
-Columns: predicted, fcst_time, total, load_fcst, region, price_da",df['hour'] = df['fcst_time'].dt.hour,"df.loc[:, 'load_fcst'].apply(lambda x: int(x.split(':')[0]))",0.33,False,False,
-78,"Compute the mean of predicted_err grouped by region. 
-Columns: start_time, predicted, region, wind_fcst, day_ahead_forecast, predicted_err, price_da",df.groupby('region')['predicted_err'].mean(),"""""",0.0,False,False,
-79,"Sort the DataFrame by total. 
-Columns: start_time, power, total, method, wind_fcst, load_fcst, price_rt",df.sort_values('total'),df.sort_values(by='total'),0.94,True,True,
-80,"Compute the mean of power grouped by region. 
-Columns: predicted, fcst_time, power, total, wind_fcst, load_fcst, region, price_da",df.groupby('region')['power'].mean(),df.groupby('region')['power'].mean(),1.0,True,True,
-81,"Count unique values of day_ahead_forecast. 
-Columns: start_time, power, day_ahead_forecast, zone, price_rt, price_da",df['day_ahead_forecast'].nunique(),df['day_ahead_forecast'].unique().size,0.92,True,True,
-82,"Count unique values of day_ahead_forecast. 
-Columns: predicted, fcst_time, power, method, day_ahead_forecast, price_da",df['day_ahead_forecast'].nunique(),df['day_ahead_forecast'].unique().size,0.92,True,True,
-83,"Get unique values of load_fcst_raw. 
-Columns: predicted, load_fcst_raw, fcst_time, power, wind_fcst, load_fcst, zone, price_rt",df['load_fcst_raw'].unique(),df['load_fcst_raw'].unique(),1.0,True,True,
-84,"Compute count of rows grouped by region. 
-Columns: predicted, fcst_time, power, total, region, price_da",df.groupby('region').size(),df.groupby('region')['power'].count(),0.72,False,True,
-85,"Compute the sum of total_delta grouped by method. 
-Columns: total_delta, predicted, fcst_time, power, method, price_rt, price_da",df.groupby('method')['total_delta'].sum(),df.groupby('method')['total_delta'].sum(),1.0,True,True,
-86,"Filter rows where predicted_v2 is greater than 174. 
-Columns: predicted, fcst_time, power, total, region, predicted_v2, price_rt",df[df['predicted_v2'] > 113],df.loc[df['predicted_v2'] > 174],0.87,False,True,
-87,"Compute the mean and std of day_ahead_forecast grouped by region. 
-Columns: predicted, fcst_time, region, wind_fcst, day_ahead_forecast, load_fcst, price_rt","df.groupby('region')['day_ahead_forecast'].agg(['mean','std'])","""""",0.0,False,False,
-88,"Count unique values of price_rt_scaled. 
-Columns: start_time, power, total, price_rt_scaled, wind_fcst, day_ahead_forecast, zone, price_da",df['price_rt_scaled'].nunique(),df['price_rt_scaled'].unique().size,0.91,True,True,
-89,"Sort the DataFrame by load_fcst. 
-Columns: start_time, total, region, day_ahead_forecast, load_fcst, price_rt, price_da",df.sort_values('load_fcst'),df.sort_values(by='load_fcst'),0.95,True,True,
-90,"Sort the DataFrame by load_fcst_adj. 
-Columns: start_time, load_fcst_adj, total, wind_fcst, zone, price_da",df.sort_values('load_fcst_adj'),df.sort_values(by='load_fcst_adj'),0.95,True,True,
-91,"Filter rows where price_rt_delta is greater than 131. 
-Columns: start_time, price_rt_delta, power, total, method, load_fcst, price_rt, price_da",df[df['price_rt_delta'] > 58],df[df['price_rt_delta'] > 131],0.92,True,True,
-92,"Compute count of rows grouped by method. 
-Columns: start_time, total, method, day_ahead_forecast, total_adj, price_rt, price_da",df.groupby('method').size(),df.groupby('method')['start_time'].count(),0.67,False,False,
-93,"Compute count of rows grouped by region. 
-Columns: predicted, fcst_time, power, total, wind_fcst, region",df.groupby('region').size(),df.groupby('region')['power'].count(),0.72,False,True,
-94,"Filter rows where power is greater than 32. 
-Columns: start_time, predicted, power, load_fcst, price_rt, region",df[df['power'] > 133],df[df['power'] > 32],0.93,True,True,
-95,"Extract hour from start_time. 
-Columns: start_time, predicted, power, method, load_fcst, price_rt",df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour.values.tolist(),0.62,False,False,
-96,"Compute the mean of price_rt grouped by region. 
-Columns: start_time, power, total, region, load_fcst, price_rt, price_da",df.groupby('region')['price_rt'].mean(),df.groupby('region')['price_rt'].mean(),1.0,True,True,
-97,"Sort the DataFrame by price_rt_err. 
-Columns: start_time, price_rt_err, predicted, zone, price_rt, price_da",df.sort_values('price_rt_err'),df.sort_values(by='price_rt_err'),0.95,True,True,
-98,"Filter rows for a specific hour 63. 
-Columns: start_time, load_fcst_err, power, region, day_ahead_forecast, price_rt, price_da",df[df['start_time'].dt.hour == 176],df[df['start_time'].dt.hour == 63],0.96,True,True,
-99,"Get unique values of total. 
-Columns: start_time, total, wind_fcst, day_ahead_forecast, load_fcst, region",df['total'].unique(),df['total'].unique(),1.0,True,True,
-100,"Return bottom 144 rows by price_rt_delta. 
-Columns: price_rt_delta, fcst_time, power, method, wind_fcst, load_fcst, price_rt","df.nsmallest(28, 'price_rt_delta')",df.loc[df['price_rt_delta'].notna()].tail(144),0.53,False,False,
+1,Count unique values of price_rt.,df['price_rt'].nunique(),df['price_rt'].nunique(),1.0,True,True,
+2,Compute the mean and std of total grouped by zone.,"df.groupby('zone')['total'].agg(['mean','std'])","df.groupby('zone')['total'].agg(['mean', 'std'])",0.99,True,True,
+3,Count unique values of predicted_err.,df['predicted_err'].nunique(),df['predicted_err'].nunique(),1.0,True,True,
+4,Compute the mean of total grouped by method.,df.groupby('method')['total'].mean(),df.groupby('method')['total'].mean(),1.0,True,True,
+5,Return bottom 179 rows by price_da.,"df.nsmallest(179, 'price_da')",df.loc[:178],0.29,False,False,
+6,Compute the mean of wind_fcst_v2 grouped by method.,df.groupby('method')['wind_fcst_v2'].mean(),df.groupby('method')['wind_fcst_v2'].mean(),1.0,True,True,
+7,Extract hour from start_time.,df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour,0.79,False,True,
+8,Filter rows where price_da is greater than 14.,df[df['price_da'] > 14],df[df['price_da'] > 14.0],0.96,True,True,
+9,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+10,Count unique values of load_fcst.,df['load_fcst'].nunique(),df['load_fcst'].nunique(),1.0,True,True,
+11,Compute the sum of total_err grouped by region.,df.groupby('region')['total_err'].sum(),df.groupby('region')['total_err'].sum(),1.0,True,True,
+12,Return top 49 rows by predicted_delta.,"df.nlargest(49, 'predicted_delta')","df.nlargest(49, 'predicted_delta')",1.0,True,True,
+13,Get unique values of predicted_scaled.,df['predicted_scaled'].unique(),df['predicted_scaled'].unique(),1.0,True,True,
+14,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+15,Compute the mean of price_rt_raw grouped by method.,df.groupby('method')['price_rt_raw'].mean(),df.groupby('method')['price_rt_raw'].mean(),1.0,True,True,
+16,Return bottom 130 rows by total.,"df.nsmallest(130, 'total')",df.iloc[:130],0.36,False,False,
+17,Return top 94 rows by total_raw.,"df.nlargest(94, 'total_raw')","df.nlargest(94, 'total_raw')",1.0,True,True,
+18,Count unique values of price_rt.,df['price_rt'].nunique(),df['price_rt'].nunique(),1.0,True,True,
+19,Return bottom 41 rows by price_rt.,"df.nsmallest(41, 'price_rt')",df.loc[:41],0.31,False,False,
+20,Compute count of rows grouped by method.,df.groupby('method').size(),df.groupby('method')['row_id'].count(),0.71,False,True,
+21,Compute count of rows grouped by zone.,df.groupby('zone').size(),df.groupby('LZ').size(),0.88,False,True,
+22,Compute the mean and std of power grouped by method.,"df.groupby('method')['power'].agg(['mean','std'])","df.groupby('method')['power'].agg(['mean', 'std'])",0.99,True,True,
+23,Filter rows where predicted is greater than 119.,df[df['predicted'] > 119],df[df['pred'] > 119.0],0.85,False,True,
+24,Sort the DataFrame by price_rt_delta.,df.sort_values('price_rt_delta'),df.sort_values('price_rt_delta'),1.0,True,True,
+25,Compute count of rows grouped by method.,df.groupby('method').size(),df.groupby('method')['row_id'].count(),0.71,False,True,
+26,Compute count of rows grouped by zone.,df.groupby('zone').size(),df.groupby('LZ').size(),0.88,False,True,
+27,Get unique values of predicted_scaled.,df['predicted_scaled'].unique(),df['predicted_scaled'].unique(),1.0,True,True,
+28,Filter rows where wind_fcst is greater than 109.,df[df['wind_fcst'] > 109],df[df['wind_fcst'] > 109.0],0.96,True,True,
+29,Sort the DataFrame by wind_fcst.,df.sort_values('wind_fcst'),df.sort_values('wind_fcst'),1.0,True,True,
+30,Filter rows where price_da is greater than 157.,df[df['price_da'] > 157],df[df['price_da'] > 157.0],0.96,True,True,
+31,Compute the mean and std of wind_fcst grouped by region.,"df.groupby('region')['wind_fcst'].agg(['mean','std'])","df.groupby('region')['wind_fcst'].agg(['mean','std'])",1.0,True,True,
+32,Compute count of rows grouped by method.,df.groupby('method').size(),df.groupby('method')['row_id'].count(),0.71,False,True,
+33,Compute the sum of power grouped by method.,df.groupby('method')['power'].sum(),df.groupby('method')['power'].sum(),1.0,True,True,
+34,Get unique values of load_fcst.,df['load_fcst'].unique(),df['load_fcst'].unique(),1.0,True,True,
+35,Return bottom 97 rows by solar_fcst_v2.,"df.nsmallest(97, 'solar_fcst_v2')",df.loc[:96],0.23,False,False,
+36,Get unique values of power.,df['power'].unique(),df['power_OBS'].unique(),0.91,True,True,
+37,Return top 172 rows by price_rt.,"df.nlargest(172, 'price_rt')","df.nlargest(172, 'price_rt')",1.0,True,True,
+38,Count unique values of predicted.,df['predicted'].nunique(),df['predicted'].nunique(),1.0,True,True,
+39,Compute the mean and std of price_da grouped by zone.,"df.groupby('zone')['price_da'].agg(['mean','std'])","df.groupby('zone')['price_da'].agg(['mean', 'std'])",0.99,True,True,
+40,Return bottom 51 rows by price_da.,"df.nsmallest(51, 'price_da')","df.nsmallest(51, 'price_da')",1.0,True,True,
+41,Return top 48 rows by solar_fcst_scaled.,"df.nlargest(48, 'solar_fcst_scaled')","df.nlargest(48, 'solar_fcst_scaled')",1.0,True,True,
+42,Compute the mean of wind_fcst grouped by region.,df.groupby('region')['wind_fcst'].mean(),df.groupby('region')['wind_fcst'].mean(),1.0,True,True,
+43,Filter rows where price_rt_delta is greater than 42.,df[df['price_rt_delta'] > 42],df[df['price_rt_delta'] > 42.0],0.97,True,True,
+44,Filter rows for a specific hour 61.,df[df['fcst_time'].dt.hour == 61],df[df['INIT_DATE_TIME'].dt.hour == 61.0],0.68,False,False,
+45,Sort the DataFrame by price_rt.,df.sort_values('price_rt'),df.sort_values('price_rt'),1.0,True,True,
+46,Compute count of rows grouped by method.,df.groupby('method').size(),df.groupby('method')['row_id'].count(),0.71,False,True,
+47,Compute the mean and std of solar_fcst_delta grouped by region.,"df.groupby('region')['solar_fcst_delta'].agg(['mean','std'])","df.groupby('region')['solar_fcst_delta'].agg(['mean', 'std'])",0.99,True,True,
+48,Filter rows for a specific hour 57.,df[df['start_time'].dt.hour == 57],df[df['INIT_DATE_TIME'].dt.hour == 57.0],0.68,False,False,
+49,Get unique values of wind_fcst_v2.,df['wind_fcst_v2'].unique(),df['wind_fcst_v2'].unique(),1.0,True,True,
+50,Count unique values of price_da.,df['price_da'].nunique(),df['price_da'].nunique(),1.0,True,True,
+51,Sort the DataFrame by load_fcst_scaled.,df.sort_values('load_fcst_scaled'),df.sort_values('load_fcst_scaled'),1.0,True,True,
+52,Count unique values of day_ahead_forecast.,df['day_ahead_forecast'].nunique(),len(df[df['day_ahead'].notna()]['day_ahead'].unique()),0.57,False,False,
+53,Extract hour from start_time.,df['hour'] = df['start_time'].dt.hour,df['start_time'].dt.hour,0.79,False,True,
+54,Compute the mean of total_raw grouped by region.,df.groupby('region')['total_raw'].mean(),df.groupby('region')['total_raw'].mean(),1.0,True,True,
+55,Compute the mean of load_fcst_delta grouped by region.,df.groupby('region')['load_fcst_delta'].mean(),df.groupby('region')['load_fcst_delta'].mean(),1.0,True,True,
+56,Count unique values of load_fcst.,df['load_fcst'].nunique(),df['load_fcst'].nunique(),1.0,True,True,
+57,Return top 29 rows by wind_fcst_raw.,"df.nlargest(29, 'wind_fcst_raw')",df.head(29),0.37,False,False,
+58,Filter rows for a specific hour 121.,df[df['fcst_time'].dt.hour == 121],df[df['INIT_DATE_TIME'].dt.hour == 121.0],0.69,False,False,
+59,Compute the mean and std of day_ahead_forecast grouped by region.,"df.groupby('region')['day_ahead_forecast'].agg(['mean','std'])","df.groupby('region')['day_ahead_forecast'].agg(['mean', 'std'])",0.99,True,True,
+60,Compute the sum of price_rt grouped by zone.,df.groupby('zone')['price_rt'].sum(),df.groupby('zone')['price_rt'].sum(),1.0,True,True,
+61,Compute the mean of predicted_v2 grouped by zone.,df.groupby('zone')['predicted_v2'].mean(),df.groupby('zone')['predicted_v2'].mean(),1.0,True,True,
+62,Compute count of rows grouped by zone.,df.groupby('zone').size(),df.groupby('LZ').size(),0.88,False,True,
+63,Compute the mean and std of load_fcst_delta grouped by region.,"df.groupby('region')['load_fcst_delta'].agg(['mean','std'])","df.groupby('region')['load_fcst_delta'].agg(['mean', 'std'])",0.99,True,True,
+64,Compute the mean and std of predicted grouped by region.,"df.groupby('region')['predicted'].agg(['mean','std'])","df.groupby('LZ')['pred'].agg(['mean', 'std'])",0.86,False,True,
+65,Return bottom 139 rows by total.,"df.nsmallest(139, 'total')","df.nsmallest(139, 'total')",1.0,True,True,
+66,Return top 87 rows by wind_fcst.,"df.nlargest(87, 'wind_fcst')",df.loc[:86],0.26,False,False,
+67,Compute the sum of total grouped by zone.,df.groupby('zone')['total'].sum(),df.groupby('LZ')['pred'].sum(),0.76,False,True,
+68,Filter rows where predicted is greater than 172.,df[df['predicted'] > 172],df[df['pred'] > 172.0],0.85,False,True,
+69,Count unique values of price_rt.,df['price_rt'].nunique(),df['price_rt'].nunique(),1.0,True,True,
+70,Return top 67 rows by day_ahead_forecast.,"df.nlargest(67, 'day_ahead_forecast')","df.nlargest(67, 'day_ahead_forecast')",1.0,True,True,
+71,Compute count of rows grouped by region.,df.groupby('region').size(),df.groupby('LZ')['LZ'].count(),0.6,False,False,
+72,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+73,Filter rows where total is greater than 113.,df[df['total'] > 113],df[df['total'] > 113.0],0.95,True,True,
+74,Return top 12 rows by price_rt.,"df.nlargest(12, 'price_rt')","df.nlargest(12, 'price_rt')",1.0,True,True,
+75,Compute the sum of total_v2 grouped by method.,df.groupby('method')['total_v2'].sum(),df.groupby('method')['total_v2'].sum(),1.0,True,True,
+76,Compute the sum of wind_fcst_raw grouped by method.,df.groupby('method')['wind_fcst_raw'].sum(),df.groupby('method')['wind_fcst_raw'].sum(),1.0,True,True,
+77,Compute count of rows grouped by zone.,df.groupby('zone').size(),df.groupby('LZ').size(),0.88,False,True,
+78,Compute the mean of predicted grouped by zone.,df.groupby('zone')['predicted'].mean(),df.groupby('LZ')['pred'].mean(),0.84,False,True,
+79,Compute the mean and std of total grouped by zone.,"df.groupby('zone')['total'].agg(['mean','std'])","df.groupby('zone')['total'].agg(['mean', 'std'])",0.99,True,True,
+80,Compute the sum of price_rt_raw grouped by zone.,df.groupby('zone')['price_rt_raw'].sum(),df.groupby('zone')['price_rt_raw'].sum(),1.0,True,True,
+81,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+82,Return top 120 rows by wind_fcst.,"df.nlargest(120, 'wind_fcst')",df.loc[:120],0.34,False,False,
+83,Filter rows where solar_fcst_delta is greater than 184.,df[df['solar_fcst_delta'] > 184],df[df['solar_fcst_delta'] > 184.0],0.97,True,True,
+84,Filter rows where day_ahead_forecast is greater than 95.,df[df['day_ahead_forecast'] > 95],df[df['day_ahead_forecast'] > 95],1.0,True,True,
+85,Filter rows for a specific hour 197.,df[df['start_time'].dt.hour == 197],df[df['INIT_DATE_TIME'].dt.hour == 197.0],0.68,False,False,
+86,Return bottom 81 rows by wind_fcst.,"df.nsmallest(81, 'wind_fcst')",df.loc[:80],0.25,False,False,
+87,Get unique values of predicted.,df['predicted'].unique(),df['predicted'].unique(),1.0,True,True,
+88,Compute the sum of price_rt_err grouped by region.,df.groupby('region')['price_rt_err'].sum(),df.groupby('region')['price_rt_err'].sum(),1.0,True,True,
+89,Get unique values of power.,df['power'].unique(),df['power_OBS'].unique(),0.91,True,True,
+90,Get unique values of wind_fcst.,df['wind_fcst'].unique(),df['wind_fcst'].unique(),1.0,True,True,
+91,Count unique values of wind_fcst.,df['wind_fcst'].nunique(),df['wind_fcst'].nunique(),1.0,True,True,
+92,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+93,Count unique values of load_fcst.,df['load_fcst'].nunique(),df['load_fcst'].nunique(),1.0,True,True,
+94,Sort the DataFrame by power.,df.sort_values('power'),df.sort_values('power_OBS'),0.92,True,True,
+95,Count unique values of power.,df['power'].nunique(),len(df['power_OBS'].unique()),0.8,False,True,
+96,Count unique values of price_rt.,df['price_rt'].nunique(),df['price_rt'].nunique(),1.0,True,True,
+97,Extract hour from fcst_time.,df['hour'] = df['fcst_time'].dt.hour,df['fcst_time'].dt.hour,0.78,False,True,
+98,Get unique values of total_delta.,df['total_delta'].unique(),df['total_delta'].unique(),1.0,True,True,
+99,Get unique values of predicted.,df['predicted'].unique(),df['predicted'].unique(),1.0,True,True,
+100,Filter rows for a specific hour 6.,df[df['start_time'].dt.hour == 6],df[df['INIT_DATE_TIME'].dt.hour == 6],0.69,False,False,

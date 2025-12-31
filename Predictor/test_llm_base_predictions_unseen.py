@@ -2,6 +2,7 @@ from basemodel import BaseModelPredictor
 import json
 import csv
 from difflib import SequenceMatcher
+from utils import *
 
 def calculate_similarity(expected, generated):
     """Calculate similarity between expected and generated strings using SequenceMatcher."""
@@ -56,7 +57,7 @@ def evaluate_basemodel(test_file, output_csv):
             response = remove_comment_lines(response)
             response = remove_outer_parentheses(response)
             response = collapse_to_one_line(response)
-            import pandas as pd
+            
             print(f"Generated: {response}")
             print(f"Expected: {test['expected']}")
 

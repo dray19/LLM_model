@@ -310,6 +310,7 @@ def create_unseen_examples(num_examples: int) -> List[dict]:
         col = random_column()
         group = random.choice(groups)
         dt = random.choice(dates)
+        num_val = random.randint(1, 200)
 
         # random visible schema for the prompt
         visible_cols = list(
@@ -324,7 +325,7 @@ def create_unseen_examples(num_examples: int) -> List[dict]:
                 col=col,
                 group=group,
                 dt=dt,
-                val=random.randint(1, 200)
+                val=num_val
             ),
             "input": t[1].format(
                 cols=", ".join(visible_cols)
@@ -333,7 +334,7 @@ def create_unseen_examples(num_examples: int) -> List[dict]:
                 col=col,
                 group=group,
                 dt=dt,
-                val=random.randint(1, 200)
+                val=num_val
             )
         }
 
@@ -373,16 +374,16 @@ if __name__ == "__main__":
     # Number of total examples to create
     total_examples = 1000
 
-    # Train-test split ratio
+    # # Train-test split ratio
     train_ratio = 0.85
 
-    # Create training examples
+    # # Create training examples
     train_examples = create_train_examples(total_examples)
 
-    # Split into train and test data
+    # # Split into train and test data
     train_set, test_set_transform = split_data(train_examples, train_ratio, seed=42)
 
-    # Convert the test set into the desired structure
+    # # Convert the test set into the desired structure
     test_set = create_test_examples(test_set_transform)
 
     unseen_set = create_unseen_examples(100)

@@ -2,7 +2,7 @@ import json
 import csv
 from difflib import SequenceMatcher
 from rag import LLMPredictorRAG
-
+from utils import *
 def calculate_similarity(expected, generated):
     """Calculate similarity between expected and generated strings using SequenceMatcher."""
     return SequenceMatcher(None, expected, generated).ratio()
@@ -36,6 +36,10 @@ def evaluate_model(test_file, output_csv):
             response = predictor.generate_response_rag(test["messages"][1]['content'])
             response = response.replace("```python", "").replace("```", "").strip()
             response = response.replace("result =", "").strip()
+            response = response.replace("import pandas as pd", "").strip()
+            response = remove_comment_lines(response)
+            response = remove_outer_parentheses(response)
+            response = collapse_to_one_line(response)
             print(f"Generated: {response}")
             print(f"Expected: {test['expected']}")
 
