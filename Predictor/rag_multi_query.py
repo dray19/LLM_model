@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from itertools import product
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 from sentence_transformers import SentenceTransformer
@@ -90,32 +91,127 @@ class LLMPredictorRAG_MultiQuery:
             normalize_embeddings=True
         )
     
+    # def _generate_multi_queries(self, question: str):
+    #     """
+    #     Expand a pandas question into multiple retrieval queries.
+    #     Keep this deterministic.
+    #     """
+    #     queries = [question]
+
+    #     q_lower = question.lower()
+        
+
+    #     if "mean" in q_lower:
+    #         queries.append(question.replace("mean", "average"))
+
+    #     elif "group" in q_lower:
+    #         queries.append(f"pandas groupby {question}")
+
+    #     elif "get" in q_lower:
+    #         queries.append(question.replace("Get", "Obtain"))
+    #         queries.append(question.replace("Get", "Identify"))
+
+    #     elif "count" in q_lower:
+    #         queries.append(question.replace("Count", "Obtain"))
+    #         queries.append(question.replace("Count", "Identify"))
+
+    #     elif "filter" in q_lower:
+    #         queries.append(question.replace("Filter", "Subset"))
+    #         queries.append(question.replace("Filter", "Sort out"))
+
+    #     elif "extract" in q_lower:
+    #         queries.append(question.replace("Extract", "Pull hour"))
+
+    #     elif "compute" in q_lower:
+    #         queries.append(question.replace("Compute", "Calculate"))
+    #         queries.append(question.replace("Compute", "Find the"))
+        
+    #     elif "filter" in q_lower:
+    #         queries.append(question.replace("Filter", "Keep"))
+    #         queries.append(question.replace("Filter", "Extract"))
+
+    #     if "return" in q_lower:
+    #         queries.append(question.replace("Return", "Fetch"))
+    #         queries.append(question.replace("Return", "Produce"))
+    #     else:
+    #         queries.append(f"pandas {question}")
+    #         queries.append(f"pandas error {question}")
+
+
+    #     return list(dict.fromkeys(queries))
+    
     def _generate_multi_queries(self, question: str):
         """
         Expand a pandas question into multiple retrieval queries.
-        Keep this deterministic.
+        Allows multiple words to be changed per query.
+        Deterministic and capped.
         """
-        queries = [question]
-
+        base = question
         q_lower = question.lower()
-        
 
-        # if "return" in q_lower:
-        #     queries.append(question.replace("Return", "Select the"))
-        #     queries.append(question.replace("Return", "Retrieve the"))
+        # -------------------------
+        # Rewrite rules
+        # -------------------------
+        rules = []
 
+        # Aggregations
         if "mean" in q_lower:
-            queries.append(question.replace("mean", "average"))
+            rules.append([("mean", "average")])
 
-        elif "group" in q_lower:
-            queries.append(f"pandas groupby {question}")
+        if "min" in q_lower:
+            rules.append([("min", "minimum"), ("min", "lowest")])
 
-        else:
-            queries.append(f"pandas {question}")
-            queries.append(f"pandas error {question}")
+        if "max" in q_lower:
+            rules.append([("max", "maximum"), ("max", "highest")])
 
+        if "count" in q_lower:
+            rules.append([("count", "number of")])
 
-        return list(dict.fromkeys(queries))
+        # Ranking
+        if "top" in q_lower:
+            rules.append([("top", "highest"), ("top", "largest")])
+
+        if "bottom" in q_lower:
+            rules.append([("bottom", "lowest"), ("bottom", "smallest")])
+
+        # Action verbs
+        if "compute" in q_lower:
+            rules.append([("Compute", "Calculate"), ("Compute", "Determine")])
+
+        if "return" in q_lower:
+            rules.append([("Return", "Fetch"), ("Return", "Produce")])
+
+        if "get" in q_lower:
+            rules.append([("Get", "Obtain"), ("Get", "Identify")])
+
+        if "filter" in q_lower:
+            rules.append([("Filter", "Select"), ("Filter", "Keep")])
+
+        if "extract" in q_lower:
+            rules.append([("Extract", "Retrieve"), ("Extract", "Derive")])
+
+        # -------------------------
+        # Generate combinations
+        # -------------------------
+        queries = {base}
+
+        for combo in product(*rules):
+            q = base
+            for old, new in combo:
+                q = q.replace(old, new)
+            queries.add(q)
+
+        # -------------------------
+        # Context expansion
+        # -------------------------
+        if "group" in q_lower or "grouped by" in q_lower:
+            queries.add(f"pandas groupby {base}")
+
+        queries.add(f"pandas {base}")
+        queries.add(f"pandas error {base}")
+
+        # Deterministic order
+        return list(queries)
     
     def _retrieve_single(self, query, k=8):
         q_emb = self.embedder.encode(query, normalize_embeddings=True)
@@ -162,7 +258,7 @@ class LLMPredictorRAG_MultiQuery:
             )
 
         reranked.sort(key=lambda x: x["final_score"], reverse=True)
-        print([r["text"] for r in reranked[:top_k]])
+        # print([r["text"] for r in reranked[:top_k]])
         return [r["text"] for r in reranked[:top_k]]
 
     # --------------------------------------------------
@@ -288,7 +384,7 @@ if __name__ == "__main__":
             {
                 "role": "user",
                 "content": (
-                    "Return top 112.0 rows by gain"
+                    "Return top 181.0 rows by day_ahead."
                 )
             }
         ]

@@ -100,7 +100,7 @@ if __name__ == "__main__":
     test_file_path = "/Users/drazenzack/Desktop/LLM_model/data/unseen.jsonl"
 
     # Path to save the results CSV file
-    output_csv_path = "/Users/drazenzack/Desktop/LLM_model/Model_Results/unseen_test_results_rag_MultiQuery.csv"
+    output_csv_path = "/Users/drazenzack/Desktop/LLM_model/Model_Results/unseen_test_results_rag_MultiQuery_update.csv"
 
     # Run evaluation
     evaluate_model(test_file_path, output_csv_path)
