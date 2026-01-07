@@ -13,7 +13,6 @@
 ### Work in Progress
 
 - This repository is under active development. Planned improvements include:
-	- Expanded analytics templates for trading and forecasting
 	- Better error handling and guardrails for generated code
 	- Performance and scalability improvements
 
