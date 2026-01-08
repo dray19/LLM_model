@@ -102,7 +102,7 @@
 
 ## Predictions 
 
-- Predictions were produced with the scripts test_llm_**model_name**_predictions.py and test_llm_**model_name**_predictions_unseen.py.
+- Predictions were produced with the scripts test_llm_[model_name]_predictions.py and test_llm_[model_name]_predictions_unseen.py.
 
 ## Analysis
 
