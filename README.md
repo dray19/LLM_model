@@ -102,17 +102,17 @@
 
 ## Predictions 
 
-	- Predictions were produced with the scripts test_llm_[model_name]_predictions.py and test_llm_[model_name]_predictions_unseen.py.
+- Predictions were produced with the scripts test_llm_**model_name**_predictions.py and test_llm_**model_name**_predictions_unseen.py.
 
 ## Analysis
 
-	- All analysis outputs are located in the Error_analy/ directory.
-	- The two primary notebooks used to compare model_predictor.py, rag.py, and rag_multi_query.py are:
-		- Error_analy/error_results_rag_MQ_updated.ipynb
-		- Error_analy/error_results_rag_MQ_updated_unceen.ipynb
-	- Results from both notebooks show that rag.py and rag_multi_query.py consistently perform best among the evaluated model types.
-	- Similarity is calculated using the following formula:
-		- 2 * (number of matching characters)/ (total characters in both strings)
+- All analysis outputs are located in the ***Error_analy/*** directory.
+- The two primary notebooks used to compare model_predictor.py, rag.py, and rag_multi_query.py are:
+	- **Error_analy/error_results_rag_MQ_updated.ipynb**
+	- **Error_analy/error_results_rag_MQ_updated_unceen.ipynb**
+- Results from both notebooks show that ***rag.py*** and ***rag_multi_query.py*** consistently perform best among the evaluated model types.
+- Similarity is calculated using the following formula:
+	- 2 * (number of matching characters)/ (total characters in both strings)
 	
 
 
