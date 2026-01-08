@@ -29,7 +29,7 @@
 		- The training and test sets contain pandas instruction patterns derived from the company’s real datasets.
 		- The unseen set follows the same pandas-style patterns but includes small variations to evaluate generalization beyond the exact 
 		training examples.
-		
+
 - ### Base Model
 	- Qwen2.5-1.5B-Instruct 
 		- 1.5-billion parameter
@@ -44,12 +44,15 @@
 - ### Four Models Examined:
 
 	- ***predictor/basemodel.py***
+		- Model Name: base
 		- Just using the the base model (Qwen/Qwen2.5-1.5B-Instruct), does not use the LoRA fine-tuning 
 
 	- ***predictor/model_predictor.py***
+		- Model Name: none (file names without a model name)
 	  	- Used the base model with the LoRA fine tuning
 
 	- ***predictor/rag.py***
+		- Model Name: rag
 		- Used the base model with the LoRA fine tuning and added a basic RAG (Retrieval-Augmented Generation) model
 		- How this RAG model works wit our fine turned model
 			```
@@ -72,6 +75,7 @@
 			- In the pipeline, it retrieves the most relevant past code examples for a question and supplies them as context to the LLM, helping ground and improve the generated output.
 
 	- ***predictor/rag_multi_query.py***
+		- Model Name: rag_MQ
 		- Used the base model with the LoRA fine tuning and added a RAG (Retrieval-Augmented Generation) model with Multi-query expansion + re-ranking 
 		- How this RAG model works wit our fine turned model
 		```
@@ -95,5 +99,20 @@
 		- Embedding model used ***all-mpnet-base-v2***
 			- It is built on MPNet (Masked and Permuted Language Modeling), a model trained to understand the meaning of sentences by learning which words belong together, and it has seen many examples of sentence pairs, which makes it very good at telling when two pieces of text mean the same thing and at finding and ranking relevant matches.
 			- Compared to lighter models (e.g., MiniLM), it produces more accurate embeddings at the cost of slightly higher compute, which is ideal for RAG systems where retrieval quality matters more than speed.
+
+## Predictions 
+
+	- Predictions were produced with the scripts test_llm_[model_name]_predictions.py and test_llm_[model_name]_predictions_unseen.py.
+
+## Analysis
+
+	- All analysis outputs are located in the Error_analy/ directory.
+	- The two primary notebooks used to compare model_predictor.py, rag.py, and rag_multi_query.py are:
+		- Error_analy/error_results_rag_MQ_updated.ipynb
+		- Error_analy/error_results_rag_MQ_updated_unceen.ipynb
+	- Results from both notebooks show that rag.py and rag_multi_query.py consistently perform best among the evaluated model types.
+	- Similarity is calculated using the following formula:
+		- 2 * (number of matching characters)/ (total characters in both strings)
+	
 
 
