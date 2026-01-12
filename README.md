@@ -1,14 +1,14 @@
 # LLM-Powered Electricity Trading Analytics (Python)
 
-- This project is an LLM-powered electricity trading analytics toolkit built in Python.
+- This project is a demo of the work I completed to design and build a custom Large Language Model (LLM) that is better aligned with a company’s specific business needs in the electricity trading domain.
 
-- It allows users to:
-	- Upload forecast datasets and trade result datasets
-	- Ask questions in natural language
-	- Automatically generate safe, runnable Pandas code
-	- Perform fast analysis, diagnostics, and reporting on electricity trading data
+- The model was then integrated into a scalable application infrastructure (similar to the repo “LLM_Fastapi”) to support real-world use, including:
+	- Uploading forecast datasets and trade result datasets
+	- Asking questions in natural language
+	- Automatically generating safe, runnable Pandas code
+	- Performing fast analysis, diagnostics, and reporting on electricity trading data
 
-- The goal is to bridge the gap between data, analysis, and decision-making, making advanced electricity trading analytics accessible without requiring deep Python or Pandas expertise.
+- Overall, the goal is to bridge the gap between raw data, analytics, and decision-making, making advanced electricity trading analysis accessible to users without requiring deep expertise in Python or Pandas.
 
 ## Training
 
